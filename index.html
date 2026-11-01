@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ravaged Souls Wiki</title>
+    <link rel="icon" type="image/png" href="img/favicon.png">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,700;1,700&display=swap" rel="stylesheet">
     <style>
         /* --- ПЕРЕМЕННЫЕ И БАЗОВЫЕ СТИЛИ --- */
@@ -57,53 +58,11 @@
         .info-card { background-color: var(--bg-card); border-radius: 16px; padding: 40px; border: 1px solid var(--border-color); background: linear-gradient(to right, rgba(42, 42, 42, 0.9), rgba(42, 42, 42, 0.7)), url('img/about-bg.png') center/cover; }
         .info-card h2 { font-size: 36px; margin-bottom: 20px; }
         .info-card p { font-size: 16px; line-height: 1.6; color: #ddd; font-style: italic; }
-        .about-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); /* 2 колонки на десктопе */
-            gap: 20px;
-            margin-top: 20px;
-        }
-
-        .about-card {
-            height: 160px;
-            border-radius: 12px;
-            position: relative;
-            overflow: hidden;
-            display: flex;
-            align-items: flex-end;
-            justify-content: center;
-            padding: 15px;
-            border: 1px solid rgba(255, 255, 255, 0.15); /* Тонкая светлая рамка, как на скрине */
-            background-size: cover;
-            background-position: center;
-            transition: transform 0.2s, border-color 0.2s;
-            cursor: pointer;
-        }
-
-        /* Легкое затемнение картинки, чтобы текст читался */
-        .about-card::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: linear-gradient(to top, rgba(0,0,0,0.85), rgba(0,0,0,0.1));
-            z-index: 1;
-        }
-
-        .about-card h3 {
-            position: relative;
-            z-index: 2;
-            color: #ffffff;
-            font-size: 15px;
-            text-align: center;
-            text-shadow: 1px 1px 3px #000;
-            margin: 0;
-        }
-
-        /* Эффект при наведении */
-        .about-card:hover {
-            transform: translateY(-4px);
-            border-color: var(--text-main);
-        }
+        .about-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 20px; margin-top: 20px; }
+        .about-card { height: 160px; border-radius: 12px; position: relative; overflow: hidden; display: flex; align-items: flex-end; justify-content: center; padding: 15px; border: 1px solid rgba(255, 255, 255, 0.15); background-size: cover; background-position: center; transition: transform 0.2s, border-color 0.2s; cursor: pointer; }
+        .about-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: linear-gradient(to top, rgba(0,0,0,0.85), rgba(0,0,0,0.1)); z-index: 1; }
+        .about-card h3 { position: relative; z-index: 2; color: #ffffff; font-size: 15px; text-align: center; text-shadow: 1px 1px 3px #000; margin: 0; }
+        .about-card:hover { transform: translateY(-4px); border-color: var(--text-main); }
 
         /* --- СТРАНИЦА ЛОРА (СЕТКА) --- */
         .section-title { font-size: 28px; margin: 40px 0 30px; letter-spacing: 1px; text-align: center; }
@@ -117,6 +76,7 @@
         /* --- СТРАНИЦА СТАТЬИ --- */
         .article-hero { height: 300px; border-radius: 16px; position: relative; display: flex; align-items: flex-end; padding: 30px; margin-bottom: 30px; background: linear-gradient(to top, rgba(0,0,0,0.8), rgba(0,0,0,0.1)), url('https://images.unsplash.com/photo-1605806616949-1e87b487cb2a?q=80&w=2070&auto=format&fit=crop') center/cover; border: 1px solid var(--border-color); }
         .back-btn { background-color: var(--accent); color: #000; width: 40px; height: 40px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 20px; margin-right: 15px; cursor: pointer; }
+        .back-btn::before { content: ""; display: block; width: 24px; height: 24px; -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cline x1='19' y1='12' x2='5' y2='12'/%3E%3Cpolyline points='12 19 5 12 12 5'/%3E%3C/svg%3E"); mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cline x1='19' y1='12' x2='5' y2='12'/%3E%3Cpolyline points='12 19 5 12 12 5'/%3E%3C/svg%3E"); -webkit-mask-size: contain; mask-size: contain; -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat; -webkit-mask-position: center; mask-position: center; background-color: currentColor; }
         .back-btn:hover { opacity: 0.8; }
         .article-title { font-size: 32px; text-shadow: 2px 2px 4px #000; display: flex; align-items: center; transition: transform 0.2s ease; }
         .article-title:has(.back-btn:hover) { transform: translateX(-4px); }
@@ -127,13 +87,21 @@
         .article-image { width: 100%; border-radius: 16px; border: 1px solid var(--border-color); margin-bottom: 30px; display: block; }
 
         /* --- СТРАНИЦА АРСЕНАЛ (СЕТКА ОРУЖИЯ) --- */
-        .weapon-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); gap: 15px; margin-top: 20px; }
+        .weapon-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 15px; margin-top: 20px; }
         .weapon-card { background-color: var(--bg-card); border-radius: 10px; padding: 10px; cursor: pointer; border: 1px solid var(--border-color); transition: background 0.2s, transform 0.2s; display: flex; flex-direction: column; align-items: center; }
         .weapon-card:hover { background-color: var(--bg-card-hover); transform: translateY(-2px); border-color: var(--text-muted); }
-        .weapon-img { width: 100%; height: 60px; background-color: #fff; border-radius: 6px; margin-bottom: 10px; display: flex; align-items: center; justify-content: center; padding: 5px; }
-        .weapon-img img { max-width: 100%; max-height: 100%; object-fit: contain; }
+        .weapon-img { width: 100%; height: 90px; background-color: #fff; border-radius: 6px; margin-bottom: 10px; display: flex; align-items: flex-end; justify-content: flex-start; padding: 5px; overflow: hidden; }
+        .weapon-img img { max-width: 95%; max-height: 95%; object-fit: contain; transform: scale(3.3); transform-origin: left bottom; }
         .weapon-card h4 { font-size: 13px; font-weight: 700; margin-bottom: 5px; text-align: center; }
         .weapon-stat { font-size: 11px; color: var(--text-muted); display: flex; align-items: center; gap: 5px; }
+        .rifle-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; margin-top: 20px; margin-bottom: 40px; }
+        .rifle-card { background-color: var(--bg-card); border-radius: 12px; border: 1px solid var(--border-color); cursor: pointer; transition: transform 0.2s, border-color 0.2s; display: flex; flex-direction: column; overflow: hidden; }
+        .rifle-card:hover { transform: translateY(-4px); border-color: var(--text-muted); }
+        .rifle-img { width: 100%; height: 110px; background-color: #fff; display: flex; align-items: flex-end; justify-content: flex-start; padding: 5px; overflow: hidden; border-radius: 12px 12px 0 0; }
+        .rifle-img img { max-width: 100%; max-height: 100%; object-fit: contain; object-position: left bottom; transform: scale(1.0); transform-origin: left bottom; }
+        .rifle-info { padding: 12px 15px; display: flex; flex-direction: column; gap: 5px; }
+        .rifle-info h4 { font-size: 15px; font-weight: 700; color: #fff; margin: 0; text-align: left; }
+        .rifle-info .weapon-stat { font-size: 12px; color: var(--text-muted); justify-content: flex-start; }
 
         /* --- МОДАЛЬНОЕ ОКНО (ВСПЛЫВАЮЩАЯ КАРТОЧКА) --- */
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0, 0, 0, 0.75); backdrop-filter: blur(3px); display: none; justify-content: center; align-items: center; z-index: 1000; opacity: 0; transition: opacity 0.3s ease; }
@@ -144,9 +112,6 @@
 
         .modal-image-area { background-color: #fff; border-radius: 12px; padding: 20px; display: flex; justify-content: center; align-items: center; min-height: 200px; margin-bottom: 20px; position: relative; }
         .modal-image-area img { max-width: 100%; max-height: 250px; object-fit: contain; }
-        
-        /* Линейка на фоне картинки (декоративная) */
-        .ruler-bg { position: absolute; top: 10px; left: 10px; right: 10px; height: 10px; background: repeating-linear-gradient(to right, #000, #000 1px, transparent 1px, transparent 10%); border-bottom: 1px solid #000; opacity: 0.5; }
 
         .modal-text-area { display: flex; gap: 20px; }
         .modal-desc { flex: 1; font-size: 15px; line-height: 1.5; color: #ddd; }
@@ -167,12 +132,13 @@
             aside { transform: translateX(-100%); }
             aside.open { transform: translateX(0); }
             main { margin-left: 0; width: 100%; padding: 70px 20px 20px; }
+            #main-hero { background-position: right center; }
             .mobile-toggle { display: block; }
             .grid-cards { grid-template-columns: 1fr; }
             .hero-card h2 { font-size: 32px; }
-            
             .modal-text-area { flex-direction: column; }
             .modal-specs { width: 100%; }
+            .back-btn { width: 50px; height: 50px; font-size: 26px; flex-shrink: 0; margin-right: 12px; }
         }
     </style>
 </head>
@@ -243,7 +209,7 @@
     <main>
         <!-- СТРАНИЦА 1: ГЛАВНАЯ -->
         <div id="home" class="page active">
-            <div class="hero-card">
+            <div id="main-hero" class="hero-card">
                 <div>
                     <h2>Ravaged Souls</h2>
                     <p>Мир, где всегда война</p>
@@ -356,7 +322,7 @@
             <div class="article-hero" style="background-image: linear-gradient(to top, rgba(0,0,0,0.8), rgba(0,0,0,0.1)), url('https://images.unsplash.com/photo-1605806616949-1e87b487cb2a?q=80&w=2070&auto=format&fit=crop');">
                 <div class="article-title">
                     <!-- Кнопка назад ведет на страницу 'lore' и подсвечивает 3-й пункт меню -->
-                    <div class="back-btn" onclick="openPage('lore', document.querySelectorAll('.nav-item')[2])">←</div>
+                    <div class="back-btn" onclick="openPage('lore', document.querySelectorAll('.nav-item')[2])"></div>
                     ИСТОРИЯ СТАРОГО МИРА
                 </div>
             </div>
@@ -455,7 +421,7 @@
 
             <div class="article-hero" style="background-image: linear-gradient(to top, rgba(0,0,0,0.8), rgba(0,0,0,0.1)), url('https://images.unsplash.com/photo-1595590424283-b8f17842773f?q=80&w=1000&auto=format&fit=crop');">
                 <div class="article-title">
-                    <div class="back-btn" onclick="openPage('economy', document.querySelectorAll('.nav-item')[4])">←</div>
+                    <div class="back-btn" onclick="openPage('economy', document.querySelectorAll('.nav-item')[4])"></div>
                     АРСЕНАЛ
                 </div>
             </div>
@@ -470,9 +436,9 @@
                      data-name="Огрызок" 
                      data-desc="Огрызок — разновидность кустарного оружия револьверного типа, распространенного зачастую на диких территориях.<br><br>Огрызок может быть собран в любом месте из любых материалов и под любой патрон, но при этом качество сборки желает всего наилучшего на том свете, а существование нарезов в стволе не доказано наукой." 
                      data-specs="Масса, кг: до 3<br>Длина, мм: до 500<br>Калибр: любой<br>Вид боепитания: 5-зарядный барабан"
-                     data-img="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a9/Revolver_icon.svg/512px-Revolver_icon.svg.png" 
+                     data-img="img/weapon/segment.png" 
                      onclick="openModal(this)">
-                    <div class="weapon-img"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a9/Revolver_icon.svg/512px-Revolver_icon.svg.png" alt="Огрызок"></div>
+                    <div class="weapon-img"><img src="img/weapon/weapon_icon/segment1.png" alt="Огрызок"></div>
                     <h4>Огрызок</h4>
                     <div class="weapon-stat">⚖ 4</div>
                 </div>
@@ -482,9 +448,9 @@
                      data-name="Мориган 93" 
                      data-desc="Надежный револьвер старого мира. Часто встречается у караванщиков." 
                      data-specs="Масса, кг: 1.2<br>Длина, мм: 300<br>Калибр: .45<br>Вид боепитания: 6-зарядный барабан"
-                     data-img="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a9/Revolver_icon.svg/512px-Revolver_icon.svg.png" 
+                     data-img="img/weapon/Morigan.png" 
                      onclick="openModal(this)">
-                    <div class="weapon-img"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a9/Revolver_icon.svg/512px-Revolver_icon.svg.png" alt="Мориган 93"></div>
+                    <div class="weapon-img"><img src="img/weapon/Morigan.png" alt="Мориган 93"></div>
                     <h4>Мориган 93</h4>
                     <div class="weapon-stat">⚖ 9</div>
                 </div>
@@ -494,11 +460,62 @@
                      data-name="Синдстон 1396" 
                      data-desc="Тяжелый револьвер, способный пробить легкую броню." 
                      data-specs="Масса, кг: 1.8<br>Длина, мм: 350<br>Калибр: .50<br>Вид боепитания: 6-зарядный барабан"
-                     data-img="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a9/Revolver_icon.svg/512px-Revolver_icon.svg.png" 
+                     data-img="img/weapon/sindston.png" 
                      onclick="openModal(this)">
-                    <div class="weapon-img"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a9/Revolver_icon.svg/512px-Revolver_icon.svg.png" alt="Синдстон 1396"></div>
+                    <div class="weapon-img"><img src="img/weapon/sindston.png" alt="Синдстон 1396"></div>
                     <h4>Синдстон 1396</h4>
                     <div class="weapon-stat">⚖ 12</div>
+                </div>
+            </div>
+            <h2 class="section-title" style="margin-top: 40px;">Винтовки</h2>
+            
+            <div class="rifle-grid">
+                <!-- Карточка 1 -->
+                <div class="rifle-card" 
+                     data-name="Винтовка Гельда" 
+                     data-desc="Описание винтовки Гельда..." 
+                     data-specs="Масса, кг: 22<br>Длина, мм: 1200<br>Калибр: 7.62"
+                     data-img="img/weapon/geled.png" 
+                     onclick="openModal(this)">
+                    <div class="rifle-img">
+                        <img src="img/weapon/weapon_icon/geled1.png" alt="Винтовка Гельда">
+                    </div>
+                    <div class="rifle-info">
+                        <h4>Винтовка Гельда</h4>
+                        <div class="weapon-stat">⚖ 22</div>
+                    </div>
+                </div>
+
+                <!-- Карточка 2 -->
+                <div class="rifle-card" 
+                     data-name="Грасс М1378" 
+                     data-desc="Описание винтовки Грасс..." 
+                     data-specs="Масса, кг: 27<br>Длина, мм: 1150<br>Калибр: 8.15"
+                     data-img="img/weapon/grass.png" 
+                     onclick="openModal(this)">
+                    <div class="rifle-img">
+                        <img src="img/weapon/weapon_icon/grass1.png" alt="Грасс М1378">
+                    </div>
+                    <div class="rifle-info">
+                        <h4>Грасс М1378</h4>
+                        <div class="weapon-stat">⚖ 27</div>
+                    </div>
+                </div>
+                
+                <!-- Карточка 3 -->
+                <div class="rifle-card" 
+                     data-name="Тулин М/89" 
+                     data-desc="Описание винтовки Тулин..." 
+                     data-specs="Масса, кг: 45<br>Длина, мм: 1300<br>Калибр: 12.7"
+                     data-img="img/weapon/Tulin.png" 
+                     onclick="openModal(this)">
+                    <div class="rifle-img">
+                        <img src="img/weapon/weapon_icon/Tulin1.png" alt="Тулин М/89">
+                    </div>
+                    <div class="rifle-info">
+                        <h4>Тулин М/89</h4>
+                        <div class="weapon-stat">⚖ 45</div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -555,6 +572,21 @@
     <script>
         // 1. Логика переключения страниц (вкладок)
         function openPage(pageId, navElement) {
+           
+            const pageTitles = {
+                'home': 'Главная',
+                'rules': 'Правила',
+                'lore': 'Лор',
+                'old-world': 'История старого мира',
+                'factions': 'Фракции',
+                'economy': 'Экономика',
+                'arsenal': 'Арсенал'
+            };
+
+            // МЕНЯЕМ ЗАГОЛОВОК ВКЛАДКИ БРАУЗЕРА
+            const currentTitle = pageTitles[pageId] || 'Ravaged Souls Wiki';
+            document.title = `${currentTitle} | Ravaged Souls Wiki`;
+           
             // Скрываем все страницы
             document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
             
@@ -573,7 +605,7 @@
             } else {
                 // Если страница загрузилась по ссылке (после обновления), ищем нужный пункт меню
                 const navMap = {
-                    'home': 0, 'rules': 1, 'lore': 2, 'factions': 3, 'economy': 4
+                    'home': 0, 'rules': 1, 'lore': 2, 'factions': 3, 'economy': 4, 'sundry': 5
                 };
                 // Для внутренних статей (old-world, arsenal) подсвечиваем их родительские разделы
                 let navIndex = navMap[pageId];
