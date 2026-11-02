@@ -139,6 +139,26 @@
             .modal-text-area { flex-direction: column; }
             .modal-specs { width: 100%; }
             .back-btn { width: 50px; height: 50px; font-size: 26px; flex-shrink: 0; margin-right: 12px; }
+            .modal-image-area img { transform: scale(1.5); }
+            .modal-image-area {
+                min-height: 250px;
+                padding: 10px;
+                overflow: hidden; /* <--- ОБЯЗАТЕЛЬНО: обрезает всё, что вылезает за белые рамки */
+                display: flex; 
+                align-items: center; 
+                justify-content: center;
+            }
+
+            .modal-image-area img {
+                max-height: 350px;
+                /* Вместо scale используем более предсказуемый способ */
+                width: 150%; /* Увеличиваем ширину картинки в 1.5 раза */
+                max-width: none; /* Разрешаем картинке быть шире контейнера */
+                object-fit: contain;
+                
+                /* Сдвигаем картинку, чтобы пистолет был по центру */
+                transform: translateX(15%); 
+            }
         }
     </style>
 </head>
