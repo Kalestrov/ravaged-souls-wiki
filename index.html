@@ -6,161 +6,9 @@
     <title>Ravaged Souls Wiki</title>
     <link rel="icon" type="image/png" href="img/favicon.png">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,700;1,700&display=swap" rel="stylesheet">
-    <style>
-        /* --- ПЕРЕМЕННЫЕ И БАЗОВЫЕ СТИЛИ --- */
-        :root {
-            --bg-card-hover: #333333;
-            --bg-main: #1e1e1e;
-            --bg-sidebar: #1a1a1a;
-            --bg-card: #2a2a2a;
-            --text-main: #f2e3c6;
-            --text-muted: #999999;
-            --accent: #f2e3c6;
-            --badge-bg: #5c4a3d;
-            --border-color: #3a3a3a;
-            --font-family: 'Montserrat', sans-serif;
-        }
-
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: var(--font-family); background-color: var(--bg-main); color: var(--text-main); display: flex; min-height: 100vh; overflow-x: hidden; }
-        a { text-decoration: none; color: inherit; }
-        ul { list-style: none; }
-
-        /* --- САЙДБАР --- */
-        aside { width: 260px; background-color: var(--bg-sidebar); border-right: 1px solid var(--border-color); position: fixed; top: 0; left: 0; height: 100vh; display: flex; flex-direction: column; padding: 20px 15px; z-index: 100; transition: transform 0.3s ease; }
-        .logo { text-align: center; margin-bottom: 30px; padding-top: 10px; }
-        .custom-logo { width: 100%; max-width: 200px; height: auto; display: block; margin: 0 auto; }
-        .search-box { display: flex; align-items: center; background: transparent; border: none; border-bottom: 1px solid var(--border-color); padding: 10px 5px; margin-bottom: 25px; color: var(--text-main); }
-        .search-box input { background: transparent; border: none; color: var(--text-main); font-family: var(--font-family); font-size: 15px; margin-left: 10px; outline: none; width: 100%; }
-        .search-box input::placeholder { color: var(--text-muted); }
-        .nav-menu { flex-grow: 1; }
-        .nav-item { display: flex; align-items: center; justify-content: space-between; padding: 12px 10px; border-radius: 8px; cursor: pointer; transition: background 0.2s; margin-bottom: 2px; }
-        .nav-item:hover, .nav-item.active { background-color: rgba(255, 255, 255, 0.05); }
-        .nav-left { display: flex; align-items: center; gap: 15px; font-size: 15px; }
-        .nav-icon { width: 18px; height: 18px; fill: var(--text-main); }
-        .badge { background-color: var(--badge-bg); color: var(--text-main); font-size: 11px; padding: 2px 6px; border-radius: 4px; font-weight: bold; }
-        .sidebar-footer { font-size: 13px; color: var(--text-muted); padding-top: 20px; }
-
-        /* --- ОСНОВНОЙ КОНТЕНТ --- */
-        main { margin-left: 260px; padding: 40px; width: calc(100% - 260px); max-width: 1200px; }
-        .page { display: none; }
-        .page.active { display: block; animation: fadeIn 0.4s ease; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        .breadcrumbs { color: var(--text-muted); font-size: 14px; margin-bottom: 20px; }
-        .breadcrumbs a { color: inherit; text-decoration: none; transition: color 0.2s ease; }
-        .breadcrumbs a:hover { color: var(--text-main); text-decoration: underline; }
-
-        /* --- ГЛАВНАЯ СТРАНИЦА --- */
-        .hero-card { position: relative; border-radius: 16px; overflow: hidden; height: 350px; margin-bottom: 30px; display: flex; flex-direction: column; justify-content: space-between; padding: 30px; background: linear-gradient(to top, rgba(0,0,0,0), rgba(0,0,0,0)), url('img/hero-bg.jpg') center/cover; border: 1px solid var(--border-color); }
-        .hero-card h2 { font-size: 48px; margin-bottom: 5px; text-shadow: 2px 2px 4px rgba(0,0,0,0.8); }
-        .hero-card p { font-size: 20px; color: #ccc; text-shadow: 1px 1px 3px rgba(0,0,0,0.8); }
-        .hero-card .meta { font-size: 16px; color: var(--text-main); }
-        .info-card { background-color: var(--bg-card); border-radius: 16px; padding: 40px; border: 1px solid var(--border-color); background: linear-gradient(to right, rgba(42, 42, 42, 0.9), rgba(42, 42, 42, 0.7)), url('img/about-bg.png') center/cover; }
-        .info-card h2 { font-size: 36px; margin-bottom: 20px; }
-        .info-card p { font-size: 16px; line-height: 1.6; color: #ddd; font-style: italic; }
-        .about-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 20px; margin-top: 20px; }
-        .about-card { height: 160px; border-radius: 12px; position: relative; overflow: hidden; display: flex; align-items: flex-end; justify-content: center; padding: 15px; border: 1px solid rgba(255, 255, 255, 0.15); background-size: cover; background-position: center; transition: transform 0.2s, border-color 0.2s; cursor: pointer; }
-        .about-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: linear-gradient(to top, rgba(0,0,0,0.85), rgba(0,0,0,0.1)); z-index: 1; }
-        .about-card h3 { position: relative; z-index: 2; color: #ffffff; font-size: 15px; text-align: center; text-shadow: 1px 1px 3px #000; margin: 0; }
-        .about-card:hover { transform: translateY(-4px); border-color: var(--text-main); }
-
-        /* --- СТРАНИЦА ЛОРА (СЕТКА) --- */
-        .section-title { font-size: 28px; margin: 40px 0 30px; letter-spacing: 1px; text-align: center; }
-        .grid-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; margin-bottom: 40px; }
-        .lore-card { height: 180px; border-radius: 12px; position: relative; overflow: hidden; display: flex; align-items: flex-end; padding: 20px; cursor: pointer; border: 1px solid var(--border-color); transition: transform 0.2s, border-color 0.2s; }
-        .lore-card:hover { transform: translateY(-5px); border-color: var(--text-muted); }
-        .lore-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: linear-gradient(to top, rgba(0,0,0,0.9), transparent); z-index: 1; }
-        .lore-card h3 { position: relative; z-index: 2; font-size: 18px; color: #fff; text-shadow: 1px 1px 3px #000; width: 100%; text-align: center; line-height: 1.3;   word-wrap: break-word; padding: 0 10px; }
-        .divider { height: 1px; background: var(--border-color); margin: 40px 0; }
-
-        /* --- СТРАНИЦА СТАТЬИ --- */
-        .article-hero { height: 300px; border-radius: 16px; position: relative; display: flex; align-items: flex-end; padding: 30px; margin-bottom: 30px; background: linear-gradient(to top, rgba(0,0,0,0.8), rgba(0,0,0,0.1)), url('https://images.unsplash.com/photo-1605806616949-1e87b487cb2a?q=80&w=2070&auto=format&fit=crop') center/cover; border: 1px solid var(--border-color); }
-        .back-btn { background-color: var(--accent); color: #000; width: 40px; height: 40px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 20px; margin-right: 15px; cursor: pointer; }
-        .back-btn::before { content: ""; display: block; width: 24px; height: 24px; -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cline x1='19' y1='12' x2='5' y2='12'/%3E%3Cpolyline points='12 19 5 12 12 5'/%3E%3C/svg%3E"); mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cline x1='19' y1='12' x2='5' y2='12'/%3E%3Cpolyline points='12 19 5 12 12 5'/%3E%3C/svg%3E"); -webkit-mask-size: contain; mask-size: contain; -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat; -webkit-mask-position: center; mask-position: center; background-color: currentColor; }
-        .back-btn:hover { opacity: 0.8; }
-        .article-title { font-size: 32px; text-shadow: 2px 2px 4px #000; display: flex; align-items: center; transition: transform 0.2s ease; }
-        .article-title:has(.back-btn:hover) { transform: translateX(-4px); }
-        .article-content { background-color: var(--bg-card); border-radius: 16px; padding: 30px; border: 1px solid var(--border-color); color: #ffffff; margin-bottom: 30px; }
-        .article-content p { margin-bottom: 15px; font-size: 16px; line-height: 1.6; }
-        .article-content b, .article-content i { color: var(--text-main); }
-        .sub-title { font-size: 26px; margin: 30px 0 15px 0; color: var(--text-main); text-align: left; }
-        .article-image { width: 100%; border-radius: 16px; border: 1px solid var(--border-color); margin-bottom: 30px; display: block; }
-
-        /* --- СТРАНИЦА АРСЕНАЛ (СЕТКА ОРУЖИЯ) --- */
-        .weapon-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 15px; margin-top: 20px; }
-        .weapon-card { background-color: var(--bg-card); border-radius: 10px; padding: 10px; cursor: pointer; border: 1px solid var(--border-color); transition: background 0.2s, transform 0.2s; display: flex; flex-direction: column; align-items: center; }
-        .weapon-card:hover { background-color: var(--bg-card-hover); transform: translateY(-2px); border-color: var(--text-muted); }
-        .weapon-img { width: 100%; height: 90px; background-color: #fff; border-radius: 6px; margin-bottom: 10px; display: flex; align-items: flex-end; justify-content: flex-start; padding: 5px; overflow: hidden; }
-        .weapon-img img { max-width: 95%; max-height: 95%; object-fit: contain; transform: scale(3.3); transform-origin: left bottom; }
-        .weapon-card h4 { font-size: 13px; font-weight: 700; margin-bottom: 5px; text-align: center; }
-        .weapon-stat { font-size: 11px; color: var(--text-muted); display: flex; align-items: center; gap: 5px; }
-        .rifle-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; margin-top: 20px; margin-bottom: 40px; }
-        .rifle-card { background-color: var(--bg-card); border-radius: 12px; border: 1px solid var(--border-color); cursor: pointer; transition: transform 0.2s, border-color 0.2s; display: flex; flex-direction: column; overflow: hidden; }
-        .rifle-card:hover { transform: translateY(-4px); border-color: var(--text-muted); }
-        .rifle-img { width: 100%; height: 110px; background-color: #fff; display: flex; align-items: flex-end; justify-content: flex-start; padding: 5px; overflow: hidden; border-radius: 12px 12px 0 0; }
-        .rifle-img img { max-width: 100%; max-height: 100%; object-fit: contain; object-position: left bottom; transform: scale(1.0); transform-origin: left bottom; }
-        .rifle-info { padding: 12px 15px; display: flex; flex-direction: column; gap: 5px; }
-        .rifle-info h4 { font-size: 15px; font-weight: 700; color: #fff; margin: 0; text-align: left; }
-        .rifle-info .weapon-stat { font-size: 12px; color: var(--text-muted); justify-content: flex-start; }
-
-        /* --- МОДАЛЬНОЕ ОКНО (ВСПЛЫВАЮЩАЯ КАРТОЧКА) --- */
-        .modal-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0, 0, 0, 0.75); backdrop-filter: blur(3px); display: none; justify-content: center; align-items: center; z-index: 1000; opacity: 0; transition: opacity 0.3s ease; }
-        .modal-overlay.show { display: flex; opacity: 1; }
-        
-        .modal-content { background-color: var(--bg-card); border-radius: 16px; width: 90%; max-width: 800px; max-height: 90vh; overflow-y: auto; padding: 20px; position: relative; border: 1px solid var(--border-color); box-shadow: 0 10px 30px rgba(0,0,0,0.5); transform: scale(0.95); transition: transform 0.3s ease; }
-        .modal-overlay.show .modal-content { transform: scale(1); }
-
-        .modal-image-area { background-color: #fff; border-radius: 12px; padding: 20px; display: flex; justify-content: center; align-items: center; min-height: 200px; margin-bottom: 20px; position: relative; }
-        .modal-image-area img { max-width: 100%; max-height: 250px; object-fit: contain; }
-
-        .modal-text-area { display: flex; gap: 20px; }
-        .modal-desc { flex: 1; font-size: 15px; line-height: 1.5; color: #ddd; }
-        .modal-desc strong { color: var(--text-main); font-size: 18px; display: block; margin-bottom: 10px; }
-        
-        .modal-specs { width: 250px; background-color: rgba(0,0,0,0.2); border-radius: 12px; padding: 20px; border: 1px solid var(--border-color); }
-        .modal-specs h3 { text-align: center; margin-bottom: 15px; font-size: 20px; letter-spacing: 1px; }
-        .modal-specs p { font-size: 14px; margin-bottom: 8px; color: #ccc; }
-        .modal-specs p strong { color: var(--text-main); }
-
-        .close-btn { position: absolute; top: 15px; right: 20px; font-size: 30px; color: #000; cursor: pointer; z-index: 10; line-height: 1; opacity: 0.5; transition: opacity 0.2s; }
-        .close-btn:hover { opacity: 1; }
-
-        /* --- МОБИЛЬНАЯ ВЕРСИЯ --- */
-        .mobile-toggle { display: none; position: fixed; top: 15px; left: 15px; background: var(--bg-card); color: var(--text-main); border: 1px solid var(--border-color); padding: 10px 15px; border-radius: 8px; z-index: 200; font-size: 20px; cursor: pointer; }
-
-        @media (max-width: 900px) {
-            aside { transform: translateX(-100%); }
-            aside.open { transform: translateX(0); }
-            main { margin-left: 0; width: 100%; padding: 70px 20px 20px; }
-            #main-hero { background-position: right center; }
-            .mobile-toggle { display: block; }
-            .grid-cards { grid-template-columns: 1fr; }
-            .hero-card h2 { font-size: 32px; }
-            .modal-text-area { flex-direction: column; }
-            .modal-specs { width: 100%; }
-            .back-btn { width: 50px; height: 50px; font-size: 26px; flex-shrink: 0; margin-right: 12px; }
-            .modal-image-area img { transform: scale(1.5); }
-            .modal-image-area {
-                min-height: 250px;
-                padding: 10px;
-                overflow: hidden; /* <--- ОБЯЗАТЕЛЬНО: обрезает всё, что вылезает за белые рамки */
-                display: flex; 
-                align-items: center; 
-                justify-content: center;
-            }
-
-            .modal-image-area img {
-                max-height: 350px;
-                /* Вместо scale используем более предсказуемый способ */
-                width: 150%; /* Увеличиваем ширину картинки в 1.5 раза */
-                max-width: none; /* Разрешаем картинке быть шире контейнера */
-                object-fit: contain;
-                
-                /* Сдвигаем картинку, чтобы пистолет был по центру */
-                transform: translateX(15%); 
-            }
-        }
-    </style>
+    
+    <!-- ПОДКЛЮЧАЕМ НАШИ СТИЛИ -->
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
@@ -205,7 +53,6 @@
                 </div>
                 <span class="badge">15</span>
             </li>
-            <!-- ДОБАВИЛ ССЫЛКУ НА АРСЕНАЛ В МЕНЮ -->
             <li class="nav-item" onclick="openPage('economy', this)">
                 <div class="nav-left">
                     <svg class="nav-icon" viewBox="0 0 24 24"><path d="M11.8 10.9c-2.27-.59-3-1.2-3-2.15 0-1.09 1.01-1.85 2.7-1.85 1.78 0 2.44.85 2.5 2.1h2.21c-.07-1.72-1.12-3.3-3.21-3.81V3h-3v2.16c-1.94.42-3.5 1.68-3.5 3.61 0 2.31 1.91 3.46 4.7 4.13 2.5.6 3 1.48 3 2.41 0 .69-.49 1.79-2.7 1.79-2.06 0-2.87-.92-2.98-2.1h-2.2c.12 2.19 1.76 3.42 3.68 3.83V21h3v-2.15c1.95-.37 3.5-1.5 3.5-3.55 0-2.84-2.43-3.81-4.7-4.4z"/></svg>
@@ -239,40 +86,28 @@
             <div class="info-card">
                 <h2>О проекте</h2>
                 <p style="margin-bottom: 10px;">Ravaged Souls – это ролевая игра в духе дизельпанка с элементами вестерна и постапокалипсиса, где вы можете быть кем угодно и делать что угодно.</p>
-<p>Для вас открыта огромная территория мира, возрождающегося после апокалипсиса. Выберите свою дорогу и начните собственные приключения на просторах Постгвинии.</p>
+                <p>Для вас открыта огромная территория мира, возрождающегося после апокалипсиса. Выберите свою дорогу и начните собственные приключения на просторах Постгвинии.</p>
 
                 <div class="about-grid">
-                    <!-- Карточка 1 -->
-                    <div class="about-card" style="background-image: url('https://images.unsplash.com/photo-1542385151-efd9000785a0?q=80&w=800&auto=format&fit=crop');">
+                    <div class="about-card" style="background-image: url('img/cover/interest.jpg');">
                         <h3>ИНТЕРЕСНЫЙ МИР</h3>
                     </div>
-                    
-                    <!-- Карточка 2 -->
-                    <div class="about-card" style="background-image: url('https://images.unsplash.com/photo-1514565131-fce0801e5785?q=80&w=800&auto=format&fit=crop');">
+                    <div class="about-card" style="background-image: url('img/cover/group.png');">
                         <h3>РАЗНООБРАЗНЫЕ ФРАКЦИИ</h3>
                     </div>
-
-                    <!-- Карточка 3 -->
-                    <div class="about-card" style="background-image: url('https://images.unsplash.com/photo-1595590424283-b8f17842773f?q=80&w=800&auto=format&fit=crop');">
+                    <div class="about-card" style="background-image: url('img/cover/trade.png');">
                         <h3>ТОРГОВЛЯ И ЭКОНОМИКА</h3>
                     </div>
-
-                    <!-- Карточка 4 -->
-                    <div class="about-card" style="background-image: url('https://images.unsplash.com/photo-1605806616949-1e87b487cb2a?q=80&w=800&auto=format&fit=crop');">
+                    <div class="about-card" style="background-image: url('img/cover/gun.jpg');">
                         <h3>УНИКАЛЬНЫЙ АРСЕНАЛ</h3>
                     </div>
-
-                    <!-- Карточка 5 -->
-                    <div class="about-card" style="background-image: url('https://images.unsplash.com/photo-1605806616949-1e87b487cb2a?q=80&w=800&auto=format&fit=crop');">
+                    <div class="about-card" style="background-image: url('img/cover/quest.jpg');">
                         <h3>КВЕСТЫ</h3>
                     </div>
-
-                    <!-- Карточка 6 -->
-                    <div class="about-card" style="background-image: url('https://images.unsplash.com/photo-1605806616949-1e87b487cb2a?q=80&w=800&auto=format&fit=crop');">
+                    <div class="about-card" style="background-image: url('img/cover/news.jpg');">
                         <h3>НОВОСТИ RS</h3>
                     </div>
                 </div>
-                <!-- КОНЕЦ СЕТКИ -->
             </div>
         </div>
 
@@ -282,22 +117,15 @@
                  <a href="#home">главная</a> / 
                  <span>правила</span>
             </div> 
-
             <h2 class="section-title">ПРАВИЛА</h2>
-
             <div class="grid-cards">
-                <!-- Карточка 1 -->
-                <div class="lore-card" style="background: url('https://images.unsplash.com/photo-1514565131-fce0801e5785?q=80&w=800&auto=format&fit=crop') center/cover;">
+                <div class="lore-card" style="background: url('img/cover/rules.jpg') center/cover;">
                     <h3>ОСНОВНЫЕ ПРАВИЛА</h3>
                 </div>
-                
-                <!-- Карточка 2 -->
-                <div class="lore-card" style="background: url('https://images.unsplash.com/photo-1542385151-efd9000785a0?q=80&w=800&auto=format&fit=crop') center/cover;">
+                <div class="lore-card" style="background: url('img/cover/questionnaire.jpg') center/cover;">
                     <h3>РЕГИСТРАЦИЯ</h3>
                 </div>
-
-                <!-- Карточка 3 -->
-                <div class="lore-card" style="background: url('https://images.unsplash.com/photo-1509281373149-e957c6296406?q=80&w=800&auto=format&fit=crop') center/cover;">
+                <div class="lore-card" style="background: url('img/cover/mechanics.png') center/cover;">
                     <h3>МЕХАНИКИ</h3>
                 </div>
             </div>
@@ -309,23 +137,37 @@
                  <a href="#home">главная</a> / 
                  <span>лор</span>
             </div> 
-
             <h2 class="section-title">ИСТОРИЯ МИРА</h2>
-
             <div class="grid-cards">
-                <div class="lore-card" 
-                onclick="openPage('old-world', document.querySelectorAll('.nav-item')[2])" 
-                style="background: url('https://images.unsplash.com/photo-1514565131-fce0801e5785?q=80&w=800&auto=format&fit=crop') center/cover;">
+                <div class="lore-card" onclick="openPage('old-world', document.querySelectorAll('.nav-item')[2])" style="background: url('img/cover/old.jpg') center/cover;">
                     <h3>Старый мир</h3>
                 </div>
-                <div class="lore-card" style="background: url('https://images.unsplash.com/photo-1605810230434-7631ac76ec81?q=80&w=800&auto=format&fit=crop') center/cover;">
+                <div class="lore-card" onclick="openPage('cataclysm', document.querySelectorAll('.nav-item')[2])" style="background: url('img/cover/cataclysm.jpg') center/cover;">
                     <h3>Катаклизм</h3>
                 </div>
-                <div class="lore-card" style="background: url('https://images.unsplash.com/photo-1542385151-efd9000785a0?q=80&w=800&auto=format&fit=crop') center/cover;">
-                    <h3>КРАТКАЯ ХРОНОЛОГИЯ ОСНОВНЫХ СОБЫТИЙ</h3>
+                <div class="lore-card" onclick="openPage('chronology', document.querySelectorAll('.nav-item')[2])" style="background: url('img/cover/chronology.jpg') center/cover;">
+                    <h3>Краткая хронология основных событий</h3>
                 </div>
-                <div class="lore-card" style="background: url('https://images.unsplash.com/photo-1509281373149-e957c6296406?q=80&w=800&auto=format&fit=crop') center/cover;">
+                <div class="lore-card" onclick="openPage('world-now', document.querySelectorAll('.nav-item')[2])" style="background: url('img/cover/Now.jpg') center/cover;">
                     <h3>Мир сейчас</h3>
+                </div>
+            </div>
+            <h2 class="section-title">КУЛЬТУРА</h2>
+            <div class="grid-cards">
+                <div class="lore-card" style="background: url('img/cover/exam.jpg') center/cover;">
+                    <h3>Экзаменатство</h3>
+                </div>
+                <div class="lore-card" style="background: url('img/cover/Corniosius.jpg') center/cover;">
+                    <h3>Дети Корниозия</h3>
+                </div>
+                <div class="lore-card" style="background: url('img/cover/paganism.jpg') center/cover;">
+                    <h3>Язычество</h3>
+                </div>
+                <div class="lore-card" style="background: url('img/cover/dying.jpg') center/cover;">
+                    <h3>Смертопоклонство</h3>
+                </div>
+                <div class="lore-card" style="background: url('img/cover/crow.jpg') center/cover;">
+                    <h3>Дом Ворона</h3>
                 </div>
             </div>
         </div>
@@ -337,66 +179,231 @@
                 <a href="#lore">лор</a> / 
                 <span>старый мир</span>
             </div>
-
-            <!-- Баннер с картинкой и кнопкой "Назад" -->
-            <div class="article-hero" style="background-image: linear-gradient(to top, rgba(0,0,0,0.8), rgba(0,0,0,0.1)), url('https://images.unsplash.com/photo-1605806616949-1e87b487cb2a?q=80&w=2070&auto=format&fit=crop');">
+            <div class="article-hero" style="background-image: linear-gradient(to top, rgba(0,0,0,0.5), rgba(0,0,0,0.1)), url('img/cover/old.jpg');">
                 <div class="article-title">
-                    <!-- Кнопка назад ведет на страницу 'lore' и подсвечивает 3-й пункт меню -->
                     <div class="back-btn" onclick="openPage('lore', document.querySelectorAll('.nav-item')[2])"></div>
                     ИСТОРИЯ СТАРОГО МИРА
                 </div>
             </div>
-
-            <!-- Блок "Основное" -->
             <h2 class="sub-title">Основное</h2>
             <div class="article-content">
                 <p><i><b>Агар</b></i> — часть света на континенте Эльнатер в Северном полушарии.</p>
                 <p><i><b>Северный Агар</b></i> — культурно-географический регион в Агаре, включающий в себя государства расположенные на территории полуострова Алькуру, Актаркульского нагорья, равнин Элпардана и Редлендса.</p>
-                <p><i><b>Великое Знамя</b></i> — точка отсчета календаря старого мира.</p>
+                <p><i><b>Великое Знамение</b></i> — точка отсчета календаря старого мира.</p>
             </div>
-
-            <!-- Картинка (Карта) -->
-            <!-- Замените ссылку внутри src на вашу картинку -->
-            <img src="img/map.png" alt="Карта мира" class="article-image">
-
-            <!-- Блок "Начало" -->
+            <figure class="article-figure">
+                <img src="img/old world.png" alt="Карта мира" class="article-image">
+                <figcaption>Политическая карта Арага на 1439 год.</figcaption>
+            </figure>
             <h2 class="sub-title">Начало</h2>
             <div class="article-content">
-                <p>Старый мир до Катаклизма представлял из себя настоящий бурный локомотив прогресса, который, тем не менее, несся по политическим рельсам в черную пучину темных времен. На протяжении всего XIV века в мире гремела промышленная революция...</p>
-                <p>Еще с середины XIV именно Северный Агар стал местом, где лучше всего проявляли себя военные новшества и тактики...</p>
+                <p>Старый мир до Катаклизма представлял из себя настоящий бурный локомотив прогресса, который, тем не менее, несся по политическим рельсам в черную пучину темных времен. На протяжении всего XIV века в мире гремела промышленная революция, явившаяся следствием феноменального научного прорыва во всех областях: создание двигателей, способных развивать автоматическое производство, новые виды постепенно автоматизирующегося оружия, медицинские новшества, укрепляющие здоровье населения. Именно Араг стал главным центром этой стремительно мчащейся машины прогресса, которая не только способствовала развитию, но и изменению общепринятых укладов во всех сферах. Будь то социальная, где постепенно смывались рамки привычного классового общества, или же военная, где на место этическим и моральным принципам вставала эффективность и холодный расчет. </p>
+                <p>С середины XIV века именно Северный Араг стал местом, где лучше всего проявляли себя военные новшества и тактики, гарантировавшие победу интересов той или иной стороны конфликта. Интересно было и то, что даже местные небольшие государства, поглощения которых так желали крупнейшие геополитические игроки региона, явились ярким примером того, как технологии способны одолеть численное и даже качественное превосходство. Именно благодаря этому к началу XV века на политической арене Арага между двумя крупнейшими державами — Весперской Конфедерацией и Моргенландской Империей — сохранялись небольшие государства разного политического толка. Они являлись либо управляемыми игрушками той или другой стороны, либо старались сохранять свой нейтралитет посредством укрепления и усиления технологической базы. Одним из таких государств стала и стремительно развивающаяся Гвинская Республика, несколько раз участвовавшая в успешных оборонительных и коалиционных войнах против Моргенландской Империи и соседей, чем заработала врагов и личные геополитические постулаты.</p>
             </div>
-
-            <!-- Блок "Великая Война" -->
+            <figure class="article-figure">
+                <img src="img/map.png" alt="Карта мира" class="article-image">
+                <figcaption>Политическая карта Северного Арага и сопредельных территорий на 1439 год.</figcaption>
+            </figure>
             <h2 class="sub-title">Великая Война</h2>
             <div class="article-content">
-                <p>Однако, именно гиганты обладают большим количеством ресурсов, в которых они также и нуждаются. Борьба за передел мира был лишь вопросом времени...</p>
-                <p>Точкой окончания истории мира старого порядка принято считать именно начало «Великой войны» меж этими двумя гигантами – 16 сентября 1409 года...</p>
+                <p>Однако именно гиганты обладают большим количеством ресурсов, в которых они также и нуждаются. Борьба за передел мира была лишь вопросом времени. Когда у Весперской Конфедерации и Моргенландской Империи закончились политические плацдармы для расширения, а армии были укомплектованы последними новшествами военной мысли доселе неизвестной разрушительной мощи, началась Великая Война. Точкой окончания истории мира старого порядка принято считать именно начало «Великой войны» меж этими двумя гигантами — 16 сентября 1409 года. По сей день не удалось собрать все архивы о событиях тех дней и получить однозначного мнения от тех, кому даже удалось своими глазами видеть те ужасные события. Однако всем известно, что именно с ряда приграничных инцидентов и провокаций со стороны Империи, которая получила сразу же резкий ответ от Конфедерации, началась крупномасштабная война, которую немногие живые очевидцы называли «Арагской мясорубкой». Такое имя было дано неслучайно, ведь именно в той войне, к которой спустя всего пару недель подключились многие другие соседние державы, разбежавшиеся по разным политическим углам ринга, впервые в истории были нанесены чудовищные потери всем сторонам конфликта. На протяжении почти 8 лет шли непрекращающиеся сражения, в которых военным изобретателям был дан полный карт-бланш на испытание и создание все новых и новых видов оружия.</p>
+                <p>Несмотря на серьезные политические мотивы всех сторон, ресурсная и социальная база не была готова к такому долгосрочному и кровавому конфликту. Линии фронта практически не двигались, лишь чередуя между собой постоянные наступления и контрнаступления, в результате которых земли переходили из рук в руки, вызывая все более сильное недовольство общественных масс. В обществе, зараженном идеями нового времени и уставшем от столь малоэффективной бойни, с каждым месяцем вспыхивали все более радикальные мятежи, подогреваемые радикальными политиками и преступными элементами, что даже начало приводить к открытым вооруженным столкновениям уже с собственным населением. Это заставило к июлю 1417 года Империю и Конфедерацию осознать, что те стоят на грани распада и краха, и стороны сели за стол переговоров. 30 июля, под давлением общественных масс и надвигающегося экономического коллапса, стороны конфликта подписали мирный договор, начавший последнюю эпоху в истории старого мира и открывший дорогу совершенно новым идеям.</p>
             </div>
         </div>
 
-         <!-- НОВАЯ СТРАНИЦА: ФРАКЦИИ -->
+        <!-- СТРАНИЦА: КАТАКЛИЗМ -->
+        <div id="cataclysm" class="page">
+            <div class="breadcrumbs">
+                <a href="#home">главная</a> / 
+                <a href="#lore">лор</a> / 
+                <span>катаклизм</span>
+            </div>
+            <div class="article-hero" style="background-image: linear-gradient(to top, rgba(0,0,0,0.5), rgba(0,0,0,0.1)), url('img/cover/cataclysm.jpg');">
+                <div class="article-title">
+                    <div class="back-btn" onclick="openPage('lore', document.querySelectorAll('.nav-item')[2])"></div>
+                    КАТАКЛИЗМ
+                </div>
+            </div>
+            <h2 class="sub-title">Основное</h2>
+            <div class="article-content">
+                <p><i><b>Катаклизм</b></i> — общее название ряда событий, произошедших 17 мая 1439 года от Великого Знамения. Началом Катаклизма принято считать сверхсильные землетрясения, произошедшие по неизвестной причине, предположительно от единовременного сдвига литосферных плит. Это событие, словно по принципу домино, запустило целый ряд катастроф. Человечество столкнулось с сильнейшими цунами, извержениями вулканов и глобальным изменением климата, которые в итоге привели к огромным жертвам. Цунами, смерчи, бураны, потопы и мелкие землетрясения сопровождали человеческую цивилизацию около года. Концом Катаклизма стала вулканическая зима, заслонившая солнце на целый год.</p>
+            </div>
+            <h2 class="sub-title">Фазы Катаклизма</h2>
+            <div class="article-content">
+                <div class="event-block">
+                <span><i><b>Начало (17 мая – 22 мая 1439)</b></i></span>
+                <p>По всему миру происходят сверхсильные землетрясения от 10 и больше баллов по шкале Рихтера. Приборы зарегистрировали первые толчки на территории Гвинской республики 18 мая в 13:33. Ориентировочно на территории Северного Арага было более 10 эпицентров, некоторые из них приходились на активные вулканические зоны. Также большинство прибрежных городов подверглись затоплению и разрушительным цунами. После 22 мая сила землетрясений снижается до 4–6 баллов по шкале Рихтера.</p>
+                <span><i><b>Климатический сдвиг (23 мая – ноябрь 1439)</b></i></span>
+                <p>Землетрясения стали причиной пробуждения большинства вулканов, в том числе и подводных. По причине их активности изменению подверглись течения в мировом океане, что привело к климатическому сдвигу. Также на эти процессы сильно повлияли газы, выбрасываемые в атмосферу. Климат стал претерпевать резкие преобразования. Там, где никогда не было снега, началась метель, а где всё время были снега, стало теплеть. Это, в свою очередь, привело к таянию полярных ледников и затоплению больших участков суши. Резкие перепады температур стали причиной аномальных циклонов и смерчей, что усугубило ситуацию.</p>
+                <span><i><b>Затишье (декабрь 1439 – 24 марта 1440)</b></i></span>
+                <p>Эта фаза характеризовалась небольшим затишьем, сопровождаемым слабыми землетрясениями и менее разрушительными природными катастрофами.</p>
+                <span><i><b>Вулканическая зима (25 марта 1440 – май 1441)</b></i></span>
+                <p>25 марта, предположительно на юго-востоке материка, произошло сверхсильное землетрясение, которое оценивается более 12 баллов по шкале Рихтера. Этот инцидент запустил цепную реакцию по всем вулканам, что в итоге привело к выбросу неимоверного количества газа и пепла в атмосферу планеты. Тем самым было спровоцировано возникновение вулканической зимы на целый год. С мая 1440 года больше не наблюдалось никакой сейсмической или вулканической активности, но говорить с точностью об этом нельзя, так как с мая 1440 года больше некому было вести наблюдения за ситуацией.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- СТРАНИЦА: ХРОНОЛОГИЯ -->
+        <div id="chronology" class="page">
+            <div class="breadcrumbs">
+                <a href="#home">главная</a> / 
+                <a href="#lore">лор</a> / 
+                <span>хронология</span>
+            </div>
+            <div class="article-hero" style="background-image: linear-gradient(to top, rgba(0,0,0,0.5), rgba(0,0,0,0.1)), url('img/cover/chronology1.jpg');">
+                <div class="article-title">
+                    <div class="back-btn" onclick="openPage('lore', document.querySelectorAll('.nav-item')[2])"></div>
+                    КРАТКАЯ ХРОНОЛОГИЯ ОСНОВНЫХ СОБЫТИЙ
+                </div>
+            </div>
+            <h2 class="sub-title">Катаклизм (1439–1441 гг.)</h2>
+            <div class="article-content">
+                <p><i><b>17 мая 1439</b></i> — Начало Катаклизма. Сверхсильные землетрясения (от 10 баллов), запустившие цепную реакцию катастроф.</p>
+                <p><i><b>23 мая – ноябрь 1439</b></i> — Климатический сдвиг. Пробуждение большинства вулканов (в том числе подводных), изменение океанических течений и выброс газов в атмосферу. Резкие перепады температур, аномальные циклоны и смерчи, таяние полярных ледников и затопление больших участков суши.</p>
+                <p><i><b>Декабрь 1439 – 24 марта 1440</b></i> — Затишье. Период слабых землетрясений и относительного спокойствия.</p>
+                <p><i><b>25 марта 1440</b></i> — Предположительно на юго-востоке материка происходит сверхсильное землетрясение (более 12 баллов). Запускается цепная реакция по всем вулканам, что приводит к выбросу неимоверного количества газа и пепла в атмосферу.</p>
+                <p><i><b>25 марта 1440 – май 1441</b></i> — Вулканическая зима. Пепел заслоняет солнце на целый год. С мая 1440 года сейсмическая и вулканическая активность больше не наблюдалась, но точных данных нет, так как вести наблюдения стало некому.</p>
+            </div>
+
+            <h2 class="sub-title">Посткатаклизм (1441–1470 гг.)</h2>
+            <div class="article-content">
+                <p><i><b>Август 1440 – июль 1441</b></i> — Появляются очаги неизвестного заболевания, прозванного в народе «Пепельной чумой». Новая болезнь с невероятной скоростью распространилась по многим людским поселениям.</p>
+                <p><i><b>14 мая 1441</b></i> — Конец вулканической зимы.</p>
+                <p><i><b>Июль 1441</b></i> — Проявлений Пепельной чумы больше не наблюдается. Общее количество погибших по всему Северному Арагу исчисляется сотнями тысяч человек.</p>
+                <p><i><b>1452</b></i> — По всей центральной Гвинии происходят попытки поднять бунты против бандитов-варлордов, которые в своё время захватили обширные территории и подчинили своей воле расположенные там поселения.</p>
+                <p><i><b>Январь 1455</b></i> — Формирование первой освободительной армии под предводительством неизвестной личности с псевдонимом «Великий Лидер». В рядах армии скандируют социалистические лозунги, которые довольно быстро подхватывают все окрестные поселения. Данное событие получило название «Красная Волна».</p>
+                <p><i><b>Февраль 1455</b></i> — Формирование второй освободительной армии Красной Волны. Вторая армия взяла курс на Брелон, в то время как первая подходила к Алгерону, бывшей столице Гвинской Республики.</p>
+                <p><i><b>Конец февраля 1455</b></i> — Начало социалистических бунтов на территории Брелонской Республики.</p>
+                <p><i><b>Март 1455</b></i> — Уничтожение второй освободительной армии Красной Волны силами Брелонской Республики у города Дортберг.</p>
+                <p><i><b>Апрель 1455</b></i> — Армия Брелона успешно подавляет все очаги Красной Волны на своей территории. В штабе поднимается вопрос о вторжении в Алгерон, но в конечном итоге было принято решение сконцентрироваться на защите Брелона.</p>
+                <p><i><b>28 июля 1455</b></i> — Захват Алгерона первой освободительной армией Красной Волны и казнь лжепророка Мёллендорфа.</p>
+                <p><i><b>1 сентября 1455</b></i> — Формирование Алгеронской Федеративной Республики (АФР) из остатков активистов Красной Волны и иных участников войны против власти секты Мёллендорфа в Алгероне.</p>
+                <p><i><b>25 марта 1456</b></i> — Убийство Великого Лидера во время публичного выступления, начало волнений в АФР.</p>
+                <p><i><b>Сентябрь 1457</b></i> — С запада со стороны моря прибыл неизвестный флот, напавший на Фернесс, северный город Постгвинии. Местные общины не смогли оказать сопротивление нападавшим. Город перешёл под контроль бывшего моргенландского адмирала Эркюля Маккензи.</p>
+                <p><i><b>Май 1458</b></i> — После череды рейдов по всему северному побережью флот адмирала Маккензи вторгается в воды АФР. Начало полномасштабной войны Вольного Флота Маккензи и АФР.</p>
+                <p><i><b>9 ноября 1458</b></i> — Авиационная атака вольного флота Маккензи со стороны авиации АФР. Уничтожение флагмана адмирала.</p>
+                <p><i><b>Декабрь 1458</b></i> — Остатки флота Маккензи отходят от АФР, но некоторые его осколки ещё в течение полугода будут терроризировать побережье. Сам Маккензи предположительно погиб вместе со своим флагманом. В АФР назревает кризис власти на фоне крупных потерь в войне.</p>
+                <p><i><b>Январь 1459</b></i> — Структура власти флота в Фернессе рухнула. Остатки кораблей либо покинули Постгвинию, либо разбрелись по уцелевшим портам.</p>
+                <p><i><b>5 февраля 1460</b></i> — Крупное восстание на территории Брелонской Республики. Восставшие скандируют социалистические лозунги в поддержку Великого Лидера и пытаются захватить сам Брелон.</p>
+                <p><i><b>6 февраля 1460</b></i> — С большими людскими потерями восстание жестоко подавляется армией Брелонской Республики. В течение нескольких лет полиция будет заниматься зачисткой остатков восставших.</p>
+                <p><i><b>10 июня 1460</b></i> — Смерть Говарда Кайстейна, начало междоусобной войны в Эллардане.</p>
+                <p><i><b>12 сентября 1461</b></i> — Начало гражданской войны в АФР.</p>
+                <p><i><b>4 августа 1463</b></i> — Создание Южного Эллардана на первом Собрании Земель.</p>
+                <p><i><b>Март 1464</b></i> — Затишье (но не конец) гражданской войны в АФР.</p>
+                <p><i><b>Сентябрь 1468</b></i> — Княжество Лойн начинает поход на дикие территории с целью вернуться в пределы границ 1439 года.</p>
+                <p><i><b>7 октября 1470</b></i> — над Алгероном, бывшей столицей Гвинской Республики и АФР, во время необычной грозы поднялся полупрозрачный сизый купол. В городе началась паника, воюющие стороны возобновили боестолкновения, считая, что их оппоненты ответственны за происходящее. Ничто не может войти и выйти из города. В тот же день некоторые очевидцы говорили о том, что видели мощную вспышку высоко в горах. Спустя несколько часов купол над Алгероном спадает, а спустя мгновение весь город озаряет мощнейшая вспышка, уничтожающая все в пределах десятка километров. От Алгерона остался лишь глубокий кратер в земле, а окрестные земли разрушены ударной волной.</p>
+            </div>
+
+            <h2 class="sub-title">После взрыва Алгерона (1470–1479 гг.)</h2>
+            <div class="article-content">
+                <p><i><b>Октябрь 1470</b></i> — новость об уничтожении Алгерона распространяется по окрестным территориям. Многие в это не верят, считая глупой байкой, но правительства основных государств Постгвинии находятся в полном ужасе от осознания того, что некто обладает столь разрушительным оружием.</p>
+                <p><i><b>Ноябрь 1470</b></i> — создание ОАГ (Освободительной Армии Гвинии) Джеймсом Оливером Эштеном на обломках Алгеронской Федеративной Республики (АФР) и из числа беженцев, потерявших дом после взрыва.</p>
+                <p><i><b>Январь 1471</b></i> — ОАГ начинает стремительно распространять свое влияние на соседние территории. Брелонская Республика начинает наращивать армию в связи со взрывом Алгерона и активностью ОАГ у приграничья.</p>
+                <p><i><b>1472</b></i> — Подписание Дортбергского мира. Вялотекущая война между ОАГ и Брелоном завершается договором о разделе зон влияния. Установление «хрупкого мира» и начало экономического симбиоза между государствами.</p>
+                <p><i><b>1473–1474</b></i> — Война за Олегер между Лойном и Новой Алкией. По итогам мирного договора Олегер остаётся под контролем Новой Алкии.</p>
+                <p><i><b>1479</b></i> — Текущий момент. Мир находится в состоянии «хрупкого мира» и экономического застоя.</p>
+            </div>
+        </div>
+
+        <!-- СТРАНИЦА: МИР СЕЙЧАС -->
+        <div id="world-now" class="page">
+            <div class="breadcrumbs">
+                <a href="#home">главная</a> / 
+                <a href="#lore">лор</a> / 
+                <span>мир сейчас</span>
+            </div>
+            <div class="article-hero" style="background-image: linear-gradient(to top, rgba(0,0,0,0.5), rgba(0,0,0,0.1)), url('img/cover/world now.jpg');">
+                <div class="article-title">
+                    <div class="back-btn" onclick="openPage('lore', document.querySelectorAll('.nav-item')[2])"></div>
+                    МИР СЕЙЧАС
+                </div>
+            </div>
+            <h2 class="sub-title">Основное</h2>
+            <div class="article-content">
+                <p>От всемирного природного Катаклизма прошло уже больше 40 лет. Лишь немногие люди все еще помнят старый мир, уже выросли целые поколения, для которых окружающая обстановка привычна и обыденна, а истории о прежнем мире воспринимаются лишь как сказки и небылицы.</p>
+                <p>Весь полуостров Постгвинии или же полуостров Актару можно разделить на три условные зоны — северные, центральные и южные земли. Иногда отдельно выделяют западные территории, в которые включают весь полуостров Эллардан до окрестностей города Эггемоунт, и Дикое Побережье, включающее в себя всю территорию восточнее горного хребта Актарул, а также Дальний Юг, расположенный дальше границы Княжества Лойн и Новой Алкии.</p>
+            </div>
+            <figure class="article-figure">
+                <img src="img/roads.png" alt="Карта мира" class="article-image">
+                <figcaption>Политическая карта Постгвинии на 1479 год.</figcaption>
+            </figure>
+            <h2 class="sub-title">Северная Постгвиния</h2>
+            <div class="article-content">
+                <p>Северные территории в своём нынешнем состоянии представляют собой достаточно опасные места. Там нет никакой силы или структуры, которая навела бы порядок и приструнила местное население. Единственным островком стабильности является северный город Маунтер, в котором власть удерживает религиозная секта Дома Ворона. Общее экономическое и социальное положение находится в серьёзном упадке. Связано это прежде всего с последствиями прохождения над данными территориями аномального сверхциклона 40 лет назад, уничтожившего большую часть инфраструктуры региона, а также с последствиями вулканической зимы и эпидемией Пепельной чумы.</p>
+                <p>Основная часть населения представлена вольными фермерскими поселениями, которые с крайним недоверием относятся к чужакам, а также различными бандитскими группировками и радикальными культами. Крупные города либо пусты, либо заселены малыми общинами с различными социальными устоями и отношением к чужакам. «Сначала стреляй, а потом болтай» — народная поговорка северян.</p>
+            </div>
+            <h2 class="sub-title">Центральные земли</h2>
+            <div class="article-content">
+                <p>Центральные земли можно назвать наиболее безопасными и цивилизованными территориями. Связано это прежде всего с наличием на этих землях крупных государственных образований, таких как ОАГ, Брелонская Республика и Топливные Лорды. Большая часть населения, как правило, является гражданами ОАГ и Брелонской Республики, между которыми установлены «хрупкие мирные» отношения, несмотря на некоторые противоречия во внешней политике. Торговля достаточно активная, на дорогах центральных земель (даже на Диких территориях) можно часто увидеть различные караваны с товарами, следующие по своим маршрутам.</p>
+                <p>Дикие территории центральных земель населены в основном различными вольными поселениями и городками. Уровень бандитизма достаточно низок, прежде всего из-за действий ОАГ и Брелона, но риск быть ограбленным или убитым всё ещё имеется. Исключением является река Тверау, где наблюдается довольно высокая активность речных пиратов, совершающие рейды иногда даже на брелонский город Хобсс.</p>
+            </div>
+            <h2 class="sub-title">Западная Постгвиния</h2>
+            <div class="article-content">
+                <p>Западные земли являются местом нестабильным, где главным источником нестабильности является Южный Эллардан, откуда частенько местные варлорды совершают рейды по вольным поселениям и городкам. Также Южный Эллардан можно назвать самым большим пристанищем пиратства на территории всей Постгвинии. Зачастую пиратством промышляют сами варлорды, грабящие не только своих соседей на главной торговой артерии — реке Тверау, но и терроризирующие западное побережье Постгвинии. Порой возникают даже интересные ситуации, где одни варлорды борются с пиратством, чтобы самим промышлять пиратством. Тем не менее ситуация всё ещё не является катастрофической, так как герцог Чалтэнхэма своим личным флотом не позволяет пиратам сильно разгуляться.</p>
+                <p>Дикие территории запада представлены прежде всего небольшими вольными поселениями, далеко от приграничья Южного Эллардана. Местные жители не доверяют чужакам и опасаются налётов варлордов, так что одинокого путника просто прогонят, не дав ночлега и еды.</p>
+            </div>
+            <h2 class="sub-title">Южная Постгвиния</h2>
+            <div class="article-content">
+                <p>реть всей Южной Постгвинии представлена дикими ничейными территориями, соседствующими с нестабильным западом и цивилизованным центром, что создаёт довольно интересный колорит. Так, сюда нередко забредают варлорды Южного Эллардана в поисках наживы или рабов, имеются различные бандформирования и радикальные культы, но также здесь процветают торговые маршруты между государствами центра и юга. Торговля в свою очередь позволяет множеству вольных поселений и городков процветать и развиваться.</p>
+                <p>ами государства юга — Княжество Лойн и Новая Алкия — прежде всего занимаются выражением обоюдной неприязни друг к другу, но не мешают проведению торговли на Диких территориях, по крайней мере от своего лица. Южное приграничье Лойна подвергается частым набегам со стороны бандформирований равнин Редлендса, а побережье Новой Алкии терроризируют мелкие пиратские банды, но эти события не мешают активной торговле этих государств с внешними землями. Такие противоречия создают современный облик юга, выраженный в торговле и опасности. «Любой уважающий себя торговец должен иметь у себя револьвер и пару гранат» — народная мудрость южан.</p>
+            </div>
+            <h2 class="sub-title">Дикое Побережье</h2>
+            <div class="article-content">
+                <p>Дикое Побережье — место странностей и опасностей. Само побережье образовалось 40 лет назад; до этого здесь были обширные зелёные равнины и реки, но теперь вместо всего этого — бескрайняя морская гладь воды. Местное население представлено прежде всего жителями гор, спустившимися к новому побережью, и потомками алкийцев, оставшихся на этих местах после Катаклизма. Несмотря на своё название, местные жители довольно добродушные люди, но из основных занятий здесь — либо рыболовство, либо пиратство с работорговлей.</p>
+                <p>При этом основной целью пиратских налётов является побережье Новой Алкии либо мелкие вольные поселения, лежащие южнее Новой Алкии. Помимо местных пиратов с Дикого Побережья на этих территориях орудуют и пришлые пираты с востока, которые нападают на всех без разбора. Таких пришлых местные называют уйшкунами и стараются при возможности топить их катера и лодки.</p>
+            </div>
+            <h2 class="sub-title">Актарульские горы</h2>
+            <div class="article-content">
+                <p>Величественные Актарульские горы возвышались над этим миром тысячелетиями, и ничего не изменилось после краха цивилизации человечества. Горы — место суровое, там своя атмосфера, своя история, свой ход времён, влияющий только на величественные тысячелетние камни и снежные пики. Местные горцы представлены в основном актарами, но встречаются потомки беженцев-алкийцев, а также гвины, живущие на этих склонах с самого Катаклизма. Здесь можно неделями бродить и не встретить никого, наблюдая лишь камни, густые леса да водопады горных рек.</p>
+                <p>Несмотря на безмятежность и спокойствие, горы являются опасным местом. Здесь нередки рейды бандформирований на актарские шахты или этнические стычки между фанатиками язычниками и новыми местными из числа потомков беженцев. Самое опасное, что может случиться с путником, — это встреча с процессией языческого жреца или колдуна, ведь никто не знает, что произойдёт. Путника могут как отпустить, так и схватить, чтобы провести над ним загадочный ритуал во имя древних Архонтов Хтониса. Всё, что происходит в горах, остаётся в горах.</p>
+            </div>
+            
+            <figure class="article-figure">
+                <img src="img/zones.png" alt="Карта мира" class="article-image">
+                <figcaption>Карта зон Постгвинии</figcaption>
+            </figure>
+        </div>
+
+         <!-- НОВЫЙ РАЗДЕЛ: ФРАКЦИИ -->
         <div id="factions" class="page">
             <div class="breadcrumbs">
                  <a href="#home">главная</a> / 
                  <span>фракции</span>
             </div> 
-
             <h2 class="section-title">ФРАКЦИИ</h2>
-
             <div class="grid-cards">
-                <!-- Карточка 1 -->
-                <div class="lore-card" style="background: url('https://images.unsplash.com/photo-1514565131-fce0801e5785?q=80&w=800&auto=format&fit=crop') center/cover;">
-                    <h3>ОСВОБОДИТЕЛЬНАЯ АРМИЯ ГВИНИИ</h3>
+                <div class="lore-card" style="background: url('img/cover/OAS.jpg') center/cover;">
+                    <h3>Освободительная Армия Гвинии</h3>
                 </div>
-                
-                <!-- Карточка 2 -->
-                <div class="lore-card" style="background: url('https://images.unsplash.com/photo-1542385151-efd9000785a0?q=80&w=800&auto=format&fit=crop') center/cover;">
-                    <h3>Тест 2</h3>
+                <div class="lore-card" style="background: url('img/cover/brelon.jpg') center/cover;">
+                    <h3>Брелонская Республика</h3>
                 </div>
-
-                <!-- Карточка 3 -->
-                <div class="lore-card" style="background: url('https://images.unsplash.com/photo-1509281373149-e957c6296406?q=80&w=800&auto=format&fit=crop') center/cover;">
-                    <h3>Название фракции 3</h3>
+                <div class="lore-card" style="background: url('img/cover/lands.jpg') center/cover;">
+                    <h3>Южный Эллардан</h3>
+                </div>
+                 <div class="lore-card" style="background: url('img/cover/lord.jpg') center/cover;">
+                    <h3>Топливные Лорды</h3>
+                </div>
+                 <div class="lore-card" style="background: url('img/cover/loin.jpg') center/cover;">
+                    <h3>Княжество Лойн</h3>
+                </div>
+                 <div class="lore-card" style="background: url('img/cover/alkia.jpg') center/cover;">
+                    <h3>Новая Алкия</h3>
+                </div>
+            </div>
+            <h2 class="section-title">МАЛЫЕ ФРАКЦИИ</h2>
+            <div class="grid-cards">
+                <div class="lore-card" style="background: url('img/cover/Gitane.jpg') center/cover;">
+                    <h3>Гитане</h3>
+                </div>
+                <div class="lore-card" style="background: url('img/cover/actors.jpg') center/cover;">
+                    <h3>Актары</h3>
+                </div>
+                <div class="lore-card" style="background: url('img/cover/good.jpg') center/cover;">
+                    <h3>Добродетели</h3>
+                </div>
+                 <div class="lore-card" style="background: url('img/cover/death.jpg') center/cover;">
+                    <h3>Смертопоклонники</h3>
                 </div>
             </div>
         </div>
@@ -407,81 +414,53 @@
                  <a href="#home">главная</a> / 
                  <span>экономика</span>
             </div> 
-
             <h2 class="section-title">ЭКОНОМИКА</h2>
-
-                <div class="grid-cards">
-                
-                <!-- Карточка 1 -->
-                <div class="lore-card" style="background: url('https://images.unsplash.com/photo-1514565131-fce0801e5785?q=80&w=800&auto=format&fit=crop') center/cover;">
-                    <h3>ЭКОНОМИЧЕСКИЙ ОБЗОР</h3>
+            <div class="grid-cards">
+                <div class="lore-card" style="background: url('img/cover/review.jpg') center/cover;">
+                    <h3>Экономический обзор</h3>
                 </div>
-                
-                <!-- Карточка 2 -->
-                <div class="lore-card" style="background: url('https://images.unsplash.com/photo-1542385151-efd9000785a0?q=80&w=800&auto=format&fit=crop') center/cover;">
-                    <h3>РЫНОК</h3>
+                <div class="lore-card" style="background: url('img/cover/market.jpg') center/cover;">
+                    <h3>Рынок</h3>
                 </div>
-
-                <!-- Карточка 3 (Арсенал). Убедитесь, что здесь есть style с картинкой! -->
-                <div class="lore-card" 
-                     onclick="openPage('arsenal', document.querySelectorAll('.nav-item')[4])" 
-                     style="background: url('https://images.unsplash.com/photo-1595590424283-b8f17842773f?q=80&w=800&auto=format&fit=crop') center/cover;">
-                    <h3>АРСЕНАЛ</h3>
+                <div class="lore-card" onclick="openPage('arsenal', document.querySelectorAll('.nav-item')[4])" style="background: url('img/cover/arms.jpg') center/cover;">
+                    <h3>Арсенал</h3>
+                </div>
+                <div class="lore-card" onclick="openPage('civil', document.querySelectorAll('.nav-item')[4])" style="background: url('img/cover/traffic.jpg') center/cover;">
+                    <h3>Гражданский транспорт</h3>
+                </div>
+                <div class="lore-card" style="background: url('img/cover/military.jpg') center/cover;">
+                    <h3>Военный транспорт</h3>
                 </div>
             </div>
         </div>
 
-        <!-- СТРАНИЦА 4: АРСЕНАЛ -->
+        <!-- СТРАНИЦА 3.1: АРСЕНАЛ -->
         <div id="arsenal" class="page">
             <div class="breadcrumbs">
                 <a href="#home">главная</a> / 
                 <a href="#economy">экономика</a> / 
                 <span>арсенал</span>
             </div> 
-
-            <div class="article-hero" style="background-image: linear-gradient(to top, rgba(0,0,0,0.8), rgba(0,0,0,0.1)), url('https://images.unsplash.com/photo-1595590424283-b8f17842773f?q=80&w=1000&auto=format&fit=crop');">
+            <div class="article-hero" style="background-image: linear-gradient(to top, rgba(0,0,0,0.8), rgba(0,0,0,0.1)), url('img/cover/martial.jpg');">
                 <div class="article-title">
                     <div class="back-btn" onclick="openPage('economy', document.querySelectorAll('.nav-item')[4])"></div>
                     АРСЕНАЛ
                 </div>
             </div>
-
             <h2 class="section-title" style="margin-top: 0;">Револьверы и пистолеты</h2>
             
-            <!-- СЕТКА ОРУЖИЯ -->
             <div class="weapon-grid">
-                <!-- Карточка 1 -->
-                <!-- Обратите внимание на data- атрибуты. Именно из них берется текст для модального окна -->
-                <div class="weapon-card" 
-                     data-name="Огрызок" 
-                     data-desc="Огрызок — разновидность кустарного оружия револьверного типа, распространенного зачастую на диких территориях.<br><br>Огрызок может быть собран в любом месте из любых материалов и под любой патрон, но при этом качество сборки желает всего наилучшего на том свете, а существование нарезов в стволе не доказано наукой." 
-                     data-specs="Масса, кг: до 3<br>Длина, мм: до 500<br>Калибр: любой<br>Вид боепитания: 5-зарядный барабан"
-                     data-img="img/weapon/segment.png" 
-                     onclick="openModal(this)">
+                <div class="weapon-card" data-desc="Огрызок — разновидность кустарного оружия револьверного типа, распространенного зачастую на диких территориях.<br><br>Огрызок может быть собран в любом месте из любых материалов и под любой патрон, но при этом качество сборки желает всего наилучшего на том свете, а существование нарезов в стволе не доказано наукой." data-specs="Масса, кг: до 3<br>Длина, мм: до 500<br>Калибр: любой<br>Вид боепитания: 5-зарядный барабан" data-img="img/weapon/segment.png" onclick="openModal(this)">
                     <div class="weapon-img"><img src="img/weapon/weapon_icon/segment1.png" alt="Огрызок"></div>
                     <h4>Огрызок</h4>
                     <div class="weapon-stat">⚖ 4</div>
                 </div>
-
-                <!-- Карточка 2 -->
-                <div class="weapon-card" 
-                     data-name="Мориган 93" 
-                     data-desc="Надежный револьвер старого мира. Часто встречается у караванщиков." 
-                     data-specs="Масса, кг: 1.2<br>Длина, мм: 300<br>Калибр: .45<br>Вид боепитания: 6-зарядный барабан"
-                     data-img="img/weapon/Morigan.png" 
-                     onclick="openModal(this)">
+                <div class="weapon-card" data-desc="Надежный револьвер старого мира. Часто встречается у караванщиков." data-specs="Масса, кг: 1.2<br>Длина, мм: 300<br>Калибр: .45<br>Вид боепитания: 6-зарядный барабан" data-img="img/weapon/Morigan.png" onclick="openModal(this)">
                     <div class="weapon-img"><img src="img/weapon/Morigan.png" alt="Мориган 93"></div>
                     <h4>Мориган 93</h4>
                     <div class="weapon-stat">⚖ 9</div>
                 </div>
-
-                <!-- Карточка 3 -->
-                <div class="weapon-card" 
-                     data-name="Синдстон 1396" 
-                     data-desc="Тяжелый револьвер, способный пробить легкую броню." 
-                     data-specs="Масса, кг: 1.8<br>Длина, мм: 350<br>Калибр: .50<br>Вид боепитания: 6-зарядный барабан"
-                     data-img="img/weapon/sindston.png" 
-                     onclick="openModal(this)">
+                <div class="weapon-card" data-desc="Тяжелый револьвер, способный пробить легкую броню." data-specs="Масса, кг: 1.8<br>Длина, мм: 350<br>Калибр: .50<br>Вид боепитания: 6-зарядный барабан" data-img="img/weapon/sindston.png" onclick="openModal(this)">
                     <div class="weapon-img"><img src="img/weapon/sindston.png" alt="Синдстон 1396"></div>
                     <h4>Синдстон 1396</h4>
                     <div class="weapon-stat">⚖ 12</div>
@@ -490,13 +469,7 @@
             <h2 class="section-title" style="margin-top: 40px;">Винтовки</h2>
             
             <div class="rifle-grid">
-                <!-- Карточка 1 -->
-                <div class="rifle-card" 
-                     data-name="Винтовка Гельда" 
-                     data-desc="Описание винтовки Гельда..." 
-                     data-specs="Масса, кг: 22<br>Длина, мм: 1200<br>Калибр: 7.62"
-                     data-img="img/weapon/geled.png" 
-                     onclick="openModal(this)">
+                <div class="rifle-card" data-desc="Описание винтовки Гельда..." data-specs="Масса, кг: 22<br>Длина, мм: 1200<br>Калибр: 7.62" data-img="img/weapon/geled.png" onclick="openModal(this)">
                     <div class="rifle-img">
                         <img src="img/weapon/weapon_icon/geled1.png" alt="Винтовка Гельда">
                     </div>
@@ -505,14 +478,7 @@
                         <div class="weapon-stat">⚖ 22</div>
                     </div>
                 </div>
-
-                <!-- Карточка 2 -->
-                <div class="rifle-card" 
-                     data-name="Грасс М1378" 
-                     data-desc="Описание винтовки Грасс..." 
-                     data-specs="Масса, кг: 27<br>Длина, мм: 1150<br>Калибр: 8.15"
-                     data-img="img/weapon/grass.png" 
-                     onclick="openModal(this)">
+                <div class="rifle-card" data-desc="Описание винтовки Грасс..." data-specs="Масса, кг: 27<br>Длина, мм: 1150<br>Калибр: 8.15" data-img="img/weapon/grass.png" onclick="openModal(this)">
                     <div class="rifle-img">
                         <img src="img/weapon/weapon_icon/grass1.png" alt="Грасс М1378">
                     </div>
@@ -521,14 +487,7 @@
                         <div class="weapon-stat">⚖ 27</div>
                     </div>
                 </div>
-                
-                <!-- Карточка 3 -->
-                <div class="rifle-card" 
-                     data-name="Тулин М/89" 
-                     data-desc="Описание винтовки Тулин..." 
-                     data-specs="Масса, кг: 45<br>Длина, мм: 1300<br>Калибр: 12.7"
-                     data-img="img/weapon/Tulin.png" 
-                     onclick="openModal(this)">
+                <div class="rifle-card" data-desc="Описание винтовки Тулин..." data-specs="Масса, кг: 45<br>Длина, мм: 1300<br>Калибр: 12.7" data-img="img/weapon/Tulin.png" onclick="openModal(this)">
                     <div class="rifle-img">
                         <img src="img/weapon/weapon_icon/Tulin1.png" alt="Тулин М/89">
                     </div>
@@ -540,33 +499,78 @@
             </div>
         </div>
 
+        <!-- СТРАНИЦА 4.1: транспорт -->
+        <div id="civil" class="page">
+            <div class="breadcrumbs">
+                <a href="#home">главная</a> / 
+                <a href="#economy">экономика</a> / 
+                <span>гражданский транспорт</span>
+            </div> 
+            <div class="article-hero" style="background-image: linear-gradient(to top, rgba(0,0,0,0.8), rgba(0,0,0,0.1)), url('img/cover/auto.jpg');">
+                <div class="article-title">
+                    <div class="back-btn" onclick="openPage('economy', document.querySelectorAll('.nav-item')[4])"></div>
+                    ГРАЖДАНСКИЙ ТРАНСПОРТ
+                </div>
+            </div>
+            <h2 class="section-title" style="margin-top: 0;">Мотоциклы</h2>
+            
+            <div class="weapon-grid">
+                <div class="weapon-card" data-desc="Чоппер — тип мотоцикла, который появился в Эллардане в конце 1450-х годов. Он отличается радикально изменёнными углами поворота руля и удлиненными вилками, что делает его более вытянутым. Чопперы могут быть построены из оригинального мотоцикла, модифицированного или построенного с нуля.<br><br>Главная особенность чопперов - больший комфорт при многочасовой езде на большие расстояния (по сравнению с обычными мотоциклами). Нередко вместо обычного сиденья устанавливается кресло, или мотоциклетное сиденье с поддержкой нижней части спины, что даёт возможность принимать позу с наклоном спины назад." data-specs="Масса, кг: 250<br>Длина, мм: 2200<br>Двигатель: V-Twin<br>Объём бака, л: 15" data-img="img/transport/Chopper.png" onclick="openModal(this)">
+                    <div class="weapon-img"><img src="img/transport/Chopper.png" alt="Чоппер"></div>
+                    <h4>Чоппер</h4>
+                    <div class="weapon-stat">⚖ 250</div>
+                </div>
+                <div class="weapon-card" data-desc="Линнар Т30 — дорожный мотоцикл среднего класса с двухтактным одноцилиндровым двигателем, производства алкийской фирмы Линнар. Выпускался с 1429 по 1438 год и был популярен по всему Северному Арагу.<br><br>Выпускался в двух вариантах: с коляской и без. Получившаяся мотоцикл считалась одним из самых надежных, поэтому даже выпускалась особая модификация для нужд военной полиции Алкии, оснащенная турелью для пулемета вместо коляски" data-specs="Масса, кг: 180<br>Длина, мм: 2100<br>Двигатель: 350 куб.см<br>Скорость, км/ч: 90" data-img="img/transport/Linnar.png" onclick="openModal(this)">
+                    <div class="weapon-img"><img src="img/transport/Linnar.png" alt="Линнар Т30"></div>
+                    <h4>Линнар Т30</h4>
+                    <div class="weapon-stat">⚖ 180</div>
+                </div>
+                <div class="weapon-card" data-desc="Сибель Р4 - надежный мотоцикл." data-specs="Масса, кг: 160<br>Длина, мм: 2050<br>Двигатель: 500 куб.см<br>Скорость, км/ч: 100" data-img="img/transport/Sibel.png" onclick="openModal(this)">
+                    <div class="weapon-img"><img src="img/transport/Sibel.png" alt="Сибель Р4"></div>
+                    <h4>Сибель Р4</h4>
+                    <div class="weapon-stat">⚖ 160</div>
+                </div>
+                <div class="weapon-card" data-desc="Юго 34М — городской одноцилиндровый четырехтактный мотоцикл производства лойнской компании Юго. Мотоциклу принадлежит рекорд скорости в 150 км/ч, который не был побит до начала Катаклизма. Выпускался с 1435 года, с 1436 производился по лицензии в Гвинии и активно экспортировался в другие страны.<br><br>Мотоцикл отличается от аналогов наличием рабочей задней подвески, качественными тормозами и вместительным топливным баком, позволяющий покрывать значительные расстояния." data-specs="Длина, мм: 1970<br>Высота, мм: 1310<br>Вес кг: 154<br>Скорость по шоссе, км/ч: 150<br>Объём бака, л: 25" data-img="img/transport/Yugo.png" onclick="openModal(this)">
+                    <div class="weapon-img"><img src="img/transport/Yugo.png" alt="Юго 34М"></div>
+                    <h4>Юго 34М</h4>
+                    <div class="weapon-stat">⚖ 154</div>
+                </div>
+            </div>
+            
+            <h2 class="section-title" style="margin-top: 40px;">Автомобили</h2>
+            <div class="vehicle-grid">
+                <div class="vehicle-card" data-desc="Описание автомобиля Колзон 14..." data-specs="Масса, кг: 16000<br>Длина, мм: 4500<br>Двигатель: Дизельный" data-img="img/transport/kolzon14.png" onclick="openModal(this)">
+                    <div class="vehicle-img">
+                        <img src="img/transport/kolzon14.png" alt="Колзон 14">
+                    </div>
+                    <div class="vehicle-info">
+                        <h4>Колзон 14</h4>
+                        <div class="weapon-stat">⚖ 16 000</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!-- НОВАЯ СТРАНИЦА: РАЗНОЕ -->
         <div id="sundry" class="page">
             <div class="breadcrumbs">
                  <a href="#home">главная</a> / 
                  <span>разное</span>
             </div> 
-
             <h2 class="section-title">РАЗНОЕ</h2>
-
             <div class="grid-cards">
-                <!-- Карточка 1 -->
-                <div class="lore-card" style="background: url('https://images.unsplash.com/photo-1514565131-fce0801e5785?q=80&w=800&auto=format&fit=crop') center/cover;">
+                <div class="lore-card" style="background: url('img/cover/plug.jpg') center/cover;">
                     <h3>ЗАГЛУШКА</h3>
                 </div>
-                
-                <!-- Карточка 2 -->
-                <div class="lore-card" style="background: url('https://images.unsplash.com/photo-1542385151-efd9000785a0?q=80&w=800&auto=format&fit=crop') center/cover;">
-                    <h3>зАГЛУШКА</h3>
+                <div class="lore-card" style="background: url('img/cover/plug.jpg') center/cover;">
+                    <h3>ЗАГЛУШКА</h3>
                 </div>
             </div>
         </div>
 
-
-
     </main>
 
-    <!-- МОДАЛЬНОЕ ОКНО (Изначально скрыто) -->
+    <!-- МОДАЛЬНОЕ ОКНО -->
     <div id="weaponModal" class="modal-overlay" onclick="closeModal(event)">
         <div class="modal-content" onclick="event.stopPropagation()">
             <div class="close-btn" onclick="closeModal(event)">×</div>
@@ -575,128 +579,16 @@
                 <img id="modalImg" src="" alt="Weapon Image">
             </div>
             <div class="modal-text-area">
-                <div class="modal-desc" id="modalDesc">
-                    <!-- Сюда вставится описание -->
-                </div>
+                <div class="modal-desc" id="modalDesc"></div>
                 <div class="modal-specs">
                     <h3>ТТХ</h3>
-                    <p id="modalSpecs">
-                        <!-- Сюда вставятся характеристики -->
-                    </p>
+                    <p id="modalSpecs"></p>
                 </div>
             </div>
         </div>
     </div>
 
-        <!-- СКРИПТЫ -->
-    <script>
-        // 1. Логика переключения страниц (вкладок)
-        function openPage(pageId, navElement) {
-           
-            const pageTitles = {
-                'home': 'Главная',
-                'rules': 'Правила',
-                'lore': 'Лор',
-                'old-world': 'История старого мира',
-                'factions': 'Фракции',
-                'economy': 'Экономика',
-                'arsenal': 'Арсенал'
-            };
-
-            // МЕНЯЕМ ЗАГОЛОВОК ВКЛАДКИ БРАУЗЕРА
-            const currentTitle = pageTitles[pageId] || 'Ravaged Souls Wiki';
-            document.title = `${currentTitle} | Ravaged Souls Wiki`;
-           
-            // Скрываем все страницы
-            document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
-            
-            // Показываем нужную страницу
-            const targetPage = document.getElementById(pageId);
-            if (targetPage) {
-                targetPage.classList.add('active');
-            }
-
-            // Убираем подсветку со всех пунктов меню
-            document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
-            
-            if (navElement) {
-                // Если мы кликнули по меню, подсвечиваем именно его
-                navElement.classList.add('active');
-            } else {
-                // Если страница загрузилась по ссылке (после обновления), ищем нужный пункт меню
-                const navMap = {
-                    'home': 0, 'rules': 1, 'lore': 2, 'factions': 3, 'economy': 4, 'sundry': 5
-                };
-                // Для внутренних статей (old-world, arsenal) подсвечиваем их родительские разделы
-                let navIndex = navMap[pageId];
-                if (pageId === 'old-world') navIndex = 2; // Лор
-                if (pageId === 'arsenal') navIndex = 4; // Экономика
-
-                const navItems = document.querySelectorAll('.nav-item');
-                if (navIndex !== undefined && navItems[navIndex]) {
-                    navItems[navIndex].classList.add('active');
-                }
-            }
-
-            // МАГИЯ: Добавляем ID страницы в адресную строку браузера (например, #lore)
-            if (window.location.hash !== '#' + pageId) {
-                history.pushState(null, null, '#' + pageId);
-            }
-
-            // Закрываем мобильное меню
-            if(window.innerWidth <= 900) {
-                document.getElementById('sidebar').classList.remove('open');
-            }
-        }
-
-        // 2. Функция, которая срабатывает при загрузке страницы или нажатии "Назад/Вперед"
-        function loadPageFromHash() {
-            // Берем часть ссылки после решетки # (например, "lore")
-            let hash = window.location.hash.substring(1); 
-            
-            // Если хэша нет, или такого ID нет на странице, грузим главную
-            if (!hash || !document.getElementById(hash)) {
-                hash = 'home'; 
-            }
-            
-            // Открываем нужную страницу (передаем null, так как мы не кликали по меню)
-            openPage(hash, null); 
-        }
-
-        // 3. Запускаем проверку при загрузке страницы
-        window.addEventListener('DOMContentLoaded', loadPageFromHash);
-        
-        // 4. Запускаем проверку, если пользователь нажал "Назад" или "Вперед" в браузере
-        window.addEventListener('hashchange', loadPageFromHash);
-
-        // 5. Открытие/закрытие мобильного меню (осталось без изменений)
-        function toggleMenu() {
-            document.getElementById('sidebar').classList.toggle('open');
-        }
-
-        // 6. ЛОГИКА МОДАЛЬНОГО ОКНА (без изменений)
-        function openModal(element) {
-            const name = element.getAttribute('data-name');
-            const desc = element.getAttribute('data-desc');
-            const specs = element.getAttribute('data-specs');
-            const imgSrc = element.getAttribute('data-img');
-
-            document.getElementById('modalImg').src = imgSrc;
-            document.getElementById('modalDesc').innerHTML = `<strong>${name}</strong>${desc}`;
-            document.getElementById('modalSpecs').innerHTML = specs;
-
-            const modal = document.getElementById('weaponModal');
-            modal.classList.add('show');
-            document.body.style.overflow = 'hidden';
-        }
-
-        function closeModal(event) {
-            if (event.target.id === 'weaponModal' || event.target.classList.contains('close-btn')) {
-                const modal = document.getElementById('weaponModal');
-                modal.classList.remove('show');
-                document.body.style.overflow = '';
-            }
-        }
-    </script>
+    <!-- ПОДКЛЮЧАЕМ НАШ СКРИПТ В САМОМ КОНЦЕ -->
+    <script src="js/script.js"></script>
 </body>
 </html>
