@@ -147,4 +147,6 @@ main { margin-left: 260px; padding: 40px; width: calc(100% - 260px); max-width: 
     .modal-image-area { min-height: auto; padding: 10px; display: block; }
     .modal-image-area img { width: 100%; height: auto; max-height: none; display: block; }
     .lore-card { flex: 1 1 100%; max-width: 100%; }
+    .article-hero { padding: 15px; }
+    .article-title { font-size: 22px; flex-wrap: wrap; line-height: 1.2; word-break: break-word; }
 }
