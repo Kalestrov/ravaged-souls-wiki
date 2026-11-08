@@ -10,6 +10,7 @@ function openPage(pageId, navElement) {
         'chronology': 'Хронология',
         'world-now': 'Мир сейчас', 
         'factions': 'Фракции',
+        'LAG': 'ОАГ',
         'economy': 'Экономика',
         'arsenal': 'Арсенал',
         'civil': 'Гражданский транспорт',
@@ -46,6 +47,7 @@ function openPage(pageId, navElement) {
         if (pageId === 'cataclysm') navIndex = 2;
         if (pageId === 'chronology') navIndex = 2;
         if (pageId === 'world-now') navIndex = 2;
+        if (pageId === 'LAG') navIndex = 3;
         if (pageId === 'arsenal') navIndex = 4; // Экономика
         if (pageId === 'civil') navIndex = 4;
 
