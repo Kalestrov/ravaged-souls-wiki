@@ -9,8 +9,18 @@ function openPage(pageId, navElement) {
         'cataclysm': 'Катаклизм',        
         'chronology': 'Хронология',
         'world-now': 'Мир сейчас', 
+        'Examination': 'Экзаменатство', 
         'factions': 'Фракции',
         'LAG': 'ОАГ',
+        'Brelon': 'Брелонская Республика',
+        'lands': 'Южный Эллардан',
+        'lords': 'Топливные Лорды',
+        'loin': 'Княжество Лойн',
+        'Gitan': 'Гитане',
+        'alkia': 'Новая Алкия',
+        'idolater': 'Смертопоклонники',
+        'Highlander': 'Актары',
+        'virtue': 'Добродетели',
         'economy': 'Экономика',
         'arsenal': 'Арсенал',
         'civil': 'Гражданский транспорт',
@@ -47,7 +57,17 @@ function openPage(pageId, navElement) {
         if (pageId === 'cataclysm') navIndex = 2;
         if (pageId === 'chronology') navIndex = 2;
         if (pageId === 'world-now') navIndex = 2;
+        if (pageId === 'Examination') navIndex = 2;
         if (pageId === 'LAG') navIndex = 3;
+        if (pageId === 'Brelon') navIndex = 3;
+        if (pageId === 'alkia') navIndex = 3;
+        if (pageId === 'lands') navIndex = 3;
+        if (pageId === 'lords') navIndex = 3;
+        if (pageId === 'loin') navIndex = 3;
+        if (pageId === 'Gitan') navIndex = 3;
+        if (pageId === 'idolater') navIndex = 3;
+        if (pageId === 'Highlander') navIndex = 3;
+        if (pageId === 'virtue') navIndex = 3;
         if (pageId === 'arsenal') navIndex = 4; // Экономика
         if (pageId === 'civil') navIndex = 4;
 

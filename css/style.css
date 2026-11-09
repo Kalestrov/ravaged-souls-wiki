@@ -149,4 +149,9 @@ main { margin-left: 260px; padding: 40px; width: calc(100% - 260px); max-width: 
     .lore-card { flex: 1 1 100%; max-width: 100%; }
     .article-hero { padding: 15px; }
     .article-title { font-size: 22px; flex-wrap: wrap; line-height: 1.2; word-break: break-word; }
+    .article-hero.mobile-pos-left { background-position: left center !important; }
+    .article-hero.mobile-pos-right { background-position: right center !important; }
+    .article-hero.mobile-pos-top { background-position: center top !important; }
+    .article-hero.mobile-pos-bottom { background-position: center bottom !important; }
+    .article-hero.mobile-tall { height: 400px; } /* Если нужно сделать баннер выше именно на этой странице */
 }
