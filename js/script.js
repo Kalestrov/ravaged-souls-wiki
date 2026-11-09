@@ -8,8 +8,12 @@ function openPage(pageId, navElement) {
         'old-world': 'История старого мира',
         'cataclysm': 'Катаклизм',        
         'chronology': 'Хронология',
-        'world-now': 'Мир сейчас', 
+        'world-now': 'Мир сейчас',
         'Examination': 'Экзаменатство', 
+        'Corniosius': 'Дети Корниозия',
+        'heathenism': 'Язычество',
+        'worshipper': 'Смертопоклонство',
+        'crow': 'Дом Ворона',
         'factions': 'Фракции',
         'LAG': 'ОАГ',
         'Brelon': 'Брелонская Республика',
@@ -58,6 +62,10 @@ function openPage(pageId, navElement) {
         if (pageId === 'chronology') navIndex = 2;
         if (pageId === 'world-now') navIndex = 2;
         if (pageId === 'Examination') navIndex = 2;
+        if (pageId === 'Corniosius') navIndex = 2;
+        if (pageId === 'heathenism') navIndex = 2;
+        if (pageId === 'worshipper') navIndex = 2;
+        if (pageId === 'crow') navIndex = 2;
         if (pageId === 'LAG') navIndex = 3;
         if (pageId === 'Brelon') navIndex = 3;
         if (pageId === 'alkia') navIndex = 3;
@@ -103,7 +111,7 @@ function loadPageFromHash() {
 }
 
 // 3. Запускаем проверку при загрузке страницы
-window.addEventListener('DOMContentLoaded', loadPageFromHash);
+loadPageFromHash();
 
 // 4. Запускаем проверку, если пользователь нажал "Назад" или "Вперед" в браузере
 window.addEventListener('hashchange', loadPageFromHash);
