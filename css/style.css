@@ -156,3 +156,77 @@ main { margin-left: 260px; padding: 40px; width: calc(100% - 260px); max-width: 
     .article-hero.mobile-pos-bottom { background-position: center bottom !important; }
     .article-hero.mobile-tall { height: 400px; } /* Если нужно сделать баннер выше именно на этой странице */
 }
+
+/* =====================================================================
+   ПОИСК И ДОСТУПНОСТЬ (добавлено)
+   ===================================================================== */
+
+/* Видимый фокус при навигации с клавиатуры */
+.nav-item:focus-visible,
+.lore-card:focus-visible,
+.about-card:focus-visible,
+.weapon-card:focus-visible,
+.rifle-card:focus-visible,
+.vehicle-card:focus-visible,
+.back-btn:focus-visible,
+.close-btn:focus-visible,
+.mobile-toggle:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+}
+
+/* --- Поиск: выпадающий список --- */
+.search-box { position: relative; }
+.search-results {
+    position: absolute;
+    top: calc(100% + 6px);
+    left: 0;
+    width: min(360px, calc(100vw - 30px));
+    max-height: min(70vh, 520px);
+    overflow-y: auto;
+    padding: 6px;
+    background: var(--bg-sidebar);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.55);
+    z-index: 300;
+}
+.search-results[hidden] { display: none; }
+.search-result { display: block; padding: 10px 12px; border-radius: 8px; cursor: pointer; }
+.search-result:hover,
+.search-result.active { background: rgba(255, 255, 255, 0.07); }
+.search-result-head { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; }
+.search-result-title { font-size: 14px; font-weight: 700; color: var(--text-main); }
+.search-result-tag { flex-shrink: 0; font-size: 11px; padding: 2px 6px; border-radius: 4px; background-color: var(--badge-bg); color: var(--text-main); }
+.search-result-sub { margin-top: 2px; font-size: 12px; color: var(--text-muted); }
+.search-result-snippet {
+    margin-top: 6px;
+    font-size: 12.5px;
+    line-height: 1.5;
+    color: #bdbdbd;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+.search-result-snippet mark { background: rgba(242, 227, 198, 0.28); color: #fff; border-radius: 3px; padding: 0 2px; }
+.search-empty,
+.search-more { padding: 12px; font-size: 13px; line-height: 1.5; color: var(--text-muted); }
+.search-more { padding-top: 8px; font-size: 12px; text-align: center; }
+
+/* --- Переход из поиска к подразделу --- */
+.sub-title { scroll-margin-top: 24px; }
+.search-hit { animation: searchHit 2s ease-out; border-radius: 6px; }
+@keyframes searchHit {
+    from { background-color: rgba(242, 227, 198, 0.25); }
+    to   { background-color: transparent; }
+}
+
+@media (max-width: 900px) {
+    .sub-title { scroll-margin-top: 72px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .search-hit { animation: none; }
+    .page.active { animation: none; }
+}
