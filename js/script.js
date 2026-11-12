@@ -1,5 +1,16 @@
 /* =====================================================================
    Ravaged Souls Wiki: script.js
+   Что изменено по сравнению со старой версией:
+   1. Кнопка «Назад» больше не зацикливается (replaceState при первой загрузке).
+   2. Хеш, который указывает не на страницу (#sidebar, #weaponModal), открывает главную.
+   3. Хеш не зависит от регистра: #corniosius и #Corniosius открывают одну страницу.
+   4. При переходе страница прокручивается наверх.
+   5. Подсветка раздела меню берётся из карты sectionOf, а не из цепочки if и индексов.
+   6. Поиск по вики (см. блок «ПОИСК» ниже). HTML менять не нужно.
+   7. Клавиатура: Enter/Пробел на карточках и пунктах меню, Esc закрывает окно оружия.
+   ===================================================================== */
+
+
 /* ---------------------------------------------------------------------
    ДАННЫЕ
    --------------------------------------------------------------------- */
@@ -14,11 +25,10 @@ const pageTitles = {
     'chronology': 'Хронология',
     'world-now': 'Мир сейчас',
     'Examination': 'Экзаменатство',
-    'Corniosius': 'Дети Корниозия',
+    'Corniosius': 'Дети Корнеозия',
     'heathenism': 'Язычество',
     'worshipper': 'Смертопоклонство',
     'crow': 'Дом Ворона',
-    'geography': 'Особенности рельефа',
     'factions': 'Фракции',
     'LAG': 'ОАГ',
     'Brelon': 'Брелонская Республика',
@@ -39,7 +49,7 @@ const pageTitles = {
 // К какому разделу меню относится страница.
 // Новую страницу достаточно добавить сюда и в pageTitles.
 const sectionOf = {
-    'old-world': 'lore', 'cataclysm': 'lore', 'chronology': 'lore', 'world-now': 'lore',  'geography': 'lore',
+    'old-world': 'lore', 'cataclysm': 'lore', 'chronology': 'lore', 'world-now': 'lore',
     'Examination': 'lore', 'Corniosius': 'lore', 'heathenism': 'lore', 'worshipper': 'lore', 'crow': 'lore',
     'LAG': 'factions', 'Brelon': 'factions', 'lands': 'factions', 'lords': 'factions', 'loin': 'factions',
     'alkia': 'factions', 'Gitan': 'factions', 'idolater': 'factions', 'Highlander': 'factions', 'virtue': 'factions',
@@ -51,8 +61,37 @@ const sectionLabels = {
     'factions': 'Фракции', 'economy': 'Экономика', 'sundry': 'Разное'
 };
 
+// Новые страницы подхватываются автоматически: раздел и название берутся из карточки
+// на странице-хабе (Лор, Фракции, Экономика...). Достаточно добавить в HTML сам блок
+// страницы и карточку на хабе. Словари выше имеют приоритет и нужны только для исключений.
+const HUB_PAGES = ['lore', 'factions', 'economy', 'rules', 'sundry'];
+const autoMeta = {};
+
+(function collectAutoMeta() {
+    HUB_PAGES.forEach(hub => {
+        document.querySelectorAll(`#${hub} .lore-card`).forEach(card => {
+            let id = null;
+            const href = card.getAttribute('href');
+            if (href && href.startsWith('#')) {
+                id = href.slice(1);
+            } else {
+                const m = (card.getAttribute('onclick') || '').match(/openPage\('([^']+)'/);
+                if (m) id = m[1];
+            }
+            if (!id) return;
+            try { id = decodeURIComponent(id); } catch (e) { /* оставляем как есть */ }
+            const heading = card.querySelector('h3');
+            autoMeta[id] = { section: hub, title: heading ? heading.textContent.trim() : '' };
+        });
+    });
+})();
+
 function getSection(pageId) {
-    return sectionOf[pageId] || pageId;
+    return sectionOf[pageId] || (autoMeta[pageId] && autoMeta[pageId].section) || pageId;
+}
+
+function getTitle(pageId) {
+    return pageTitles[pageId] || (autoMeta[pageId] && autoMeta[pageId].title) || '';
 }
 
 
@@ -66,7 +105,7 @@ function openPage(pageId, navElement, opts = {}) {
     if (!targetPage || !targetPage.classList.contains('page')) return;
 
     // Заголовок вкладки браузера
-    const currentTitle = pageTitles[pageId] || 'Ravaged Souls Wiki';
+    const currentTitle = getTitle(pageId) || 'Ravaged Souls Wiki';
     document.title = `${currentTitle} | Ravaged Souls Wiki`;
 
     // Показываем нужную страницу, остальные скрываем
@@ -198,6 +237,8 @@ initA11y();
 
 // Страницы-меню (только карточки-ссылки): в поиске от них нет пользы
 const SEARCH_SKIP = new Set(['home', 'lore', 'factions', 'economy']);
+// Заготовки страниц («текст — текст», «ЗАГЛУШКА») в поиске не нужны
+const SEARCH_PLACEHOLDER = /^(?:[\s●—:.,\-]|текст|заглушка)+$/i;
 const SEARCH_MAX_RESULTS = 10;
 const SEARCH_MAX_PER_PAGE = 2;
 
@@ -264,13 +305,13 @@ function buildSearchIndex() {
     document.querySelectorAll('.page').forEach(page => {
         if (SEARCH_SKIP.has(page.id)) return;
 
-        const pageTitle = pageTitles[page.id] || page.id;
+        const pageTitle = getTitle(page.id) || page.id;
         const sectionLabel = sectionLabels[getSection(page.id)] || '';
         let current = { heading: 'Основное', el: null, parts: [] };
 
         const flush = () => {
             const text = current.parts.join(' ').replace(/\s+/g, ' ').trim();
-            if (!text) return;
+            if (!text || SEARCH_PLACEHOLDER.test(text)) return; // пустые разделы и «текст — текст» не индексируем
             entries.push({
                 pageId: page.id,
                 pageTitle,
