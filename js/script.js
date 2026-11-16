@@ -19,6 +19,8 @@
 const pageTitles = {
     'home': 'Главная',
     'rules': 'Правила',
+    'regulations': 'Основные правила',
+    'beginner': 'Новоприбывшим',
     'lore': 'Лор',
     'old-world': 'История старого мира',
     'cataclysm': 'Катаклизм',
@@ -49,7 +51,7 @@ const pageTitles = {
 // К какому разделу меню относится страница.
 // Новую страницу достаточно добавить сюда и в pageTitles.
 const sectionOf = {
-    'old-world': 'lore', 'cataclysm': 'lore', 'chronology': 'lore', 'world-now': 'lore',
+    'regulations': 'rules','beginner': 'rules', 'old-world': 'lore', 'cataclysm': 'lore', 'chronology': 'lore', 'world-now': 'lore',
     'Examination': 'lore', 'Corniosius': 'lore', 'heathenism': 'lore', 'worshipper': 'lore', 'crow': 'lore',
     'LAG': 'factions', 'Brelon': 'factions', 'lands': 'factions', 'lords': 'factions', 'loin': 'factions',
     'alkia': 'factions', 'Gitan': 'factions', 'idolater': 'factions', 'Highlander': 'factions', 'virtue': 'factions',

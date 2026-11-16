@@ -244,3 +244,7 @@ main { margin-left: 260px; padding: 40px; width: calc(100% - 260px); max-width: 
     .search-hit { animation: none; }
     .page.active { animation: none; }
 }
+
+/* --- СТИЛИ ДЛЯ ССЫЛОК ВНУТРИ СТАТЕЙ --- */
+.article-content a { color: var(--text-main); font-weight: 700; text-decoration: underline; text-underline-offset: 3px; transition: color 0.2s ease, opacity 0.2s ease; }
+.article-content a:hover { color: #ffffff; opacity: 0.8; }
